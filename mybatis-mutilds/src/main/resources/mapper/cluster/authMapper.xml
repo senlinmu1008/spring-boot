@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zxb.mybatis.dao.cluster.AuthClientServiceDao">
+    <insert id="add" parameterType="authClientServiceBO">
+        insert into auth_client_service
+        (
+            service_id,
+            client_id,
+            description,
+            crt_time,
+            crt_user,
+            crt_name,
+            crt_host
+        )
+        values(
+            #{serviceId},
+            #{clientId},
+            #{description},
+            now(),
+            #{crtUser},
+            #{crtName},
+            #{crtHost}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="long">
+        delete from auth_client_service
+        where id = #{id}
+    </delete>
+
+    <update id="update">
+        update auth_client_service set
+            service_id = #{serviceId},
+            client_id = #{clientId},
+            description = #{description}
+        where id = #{id}
+    </update>
+
+    <select id="query" resultMap="queryMap" parameterType="long">
+        select
+            id,
+            service_id,
+            client_id,
+            description,
+            crt_time,
+            crt_user,
+            crt_name,
+            crt_host
+        from auth_client_service
+        where id = #{id}
+    </select>
+    <!-- 指定字段映射关系 -->
+    <resultMap id="queryMap" type="authClientServiceBO">
+        <id column="id" property="id"></id>
+        <result column="service_id" property="serviceId"></result>
+        <result column="client_id" property="clientId"></result>
+        <result column="crt_time" property="crtTime"></result>
+        <result column="crt_user" property="crtUser"></result>
+        <result column="crt_name" property="crtName"></result>
+        <result column="crt_host" property="crtHost"></result>
+    </resultMap>
+
+    <!-- 查询返回List -->
+    <select id="queryList" resultMap="queryMap" parameterType="string">
+        select
+            id,
+            service_id,
+            client_id,
+            description,
+            crt_time,
+            crt_user,
+            crt_name,
+            crt_host
+        from auth_client_service
+        where service_id = #{serviceId}
+    </select>
+
+    <!-- foreach标签 -->
+    <update id="updateDescByServiceId">
+        update auth_client_service set
+        description = #{desc}
+        where service_id in
+        <foreach collection="serviceIdList" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 批量插入 -->
+    <insert id="batchSave" parameterType="list">
+        insert into auth_client_service
+        (
+            service_id,
+            client_id,
+            description,
+            crt_time,
+            crt_user,
+            crt_name,
+            crt_host
+        )
+        values
+        <foreach collection ="authClientServiceBOList" item="bo" separator =",">
+            (
+                #{bo.serviceId},
+                #{bo.clientId},
+                #{bo.description},
+                now(),
+                #{bo.crtUser},
+                #{bo.crtName},
+                #{bo.crtHost}
+            )
+        </foreach >
+    </insert>
+</mapper>

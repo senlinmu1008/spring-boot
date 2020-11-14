@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxb.task.dao.SpringScheduleCronDao">
+    <sql id="select">
+        select
+            id,
+            bean_name,
+            cron_expression,
+            task_desc,
+            status,
+            app_id
+        from spring_schedule_cron
+    </sql>
+
+    <select id="findAll" resultType="SpringScheduleCron">
+        <include refid="select"/>
+    </select>
+
+    <select id="selectByBeanName" parameterType="String" resultType="SpringScheduleCron">
+        <include refid="select"/>
+        where bean_name = #{beanName}
+    </select>
+
+    <update id="updateByBeanName">
+        update spring_schedule_cron
+        set cron_expression = #{newCron,jdbcType=VARCHAR}
+        where bean_name = #{beanName}
+    </update>
+
+    <update id="changeStatus">
+        update spring_schedule_cron
+        set status = #{status,jdbcType=NUMERIC}
+        where bean_name = #{beanName}
+    </update>
+</mapper>

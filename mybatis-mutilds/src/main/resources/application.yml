@@ -1,0 +1,30 @@
+server:
+  port: 10800
+
+spring:
+  application:
+    name: mybatis-mutilds
+
+# 主从数据库配置
+master:
+  datasource:
+    url: jdbc:mysql://148.70.153.63:3306/ttms?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: password
+    driverClassName: com.mysql.cj.jdbc.Driver
+    initialSize: 5
+    maxActive: 50
+    minIdle: 0
+    maxWait: 60000
+    useUnfairLock: true # 禁用公平锁
+cluster:
+  datasource:
+    url: jdbc:mysql://148.70.153.63:3306/ttms?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: password
+    driverClassName: com.mysql.cj.jdbc.Driver
+    initialSize: 1
+    maxActive: 10
+    minIdle: 0
+    maxWait: 60000
+    useUnfairLock: true # 禁用公平锁

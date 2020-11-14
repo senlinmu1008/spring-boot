@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zxb.mybatis.dao.master.BaseUserDao">
+    <insert id="add" parameterType="baseUserBO">
+        insert into base_user
+        (
+            user_name,
+            password,
+            name,
+            birthday,
+            address,
+            mobile_phone,
+            tel_phone,
+            email,
+            sex,
+            type,
+            status,
+            description,
+            crt_time,
+            crt_user,
+            crt_name,
+            crt_host
+        )
+        values(
+            #{userName},
+            #{password},
+            #{name},
+            #{birthday},
+            #{address},
+            #{mobilePhone},
+            #{telPhone},
+            #{email},
+            #{sex},
+            #{type},
+            #{status},
+            #{description},
+            now(),
+            #{crtUser},
+            #{crtName},
+            #{crtHost}
+        )
+    </insert>
+
+    <update id="update">
+        update base_user set
+            user_name = #{bo.userName},
+            password = #{bo.password},
+            name = #{bo.name},
+            birthday = #{bo.birthday},
+            address = #{bo.address},
+            mobile_phone = #{bo.mobilePhone},
+            tel_phone = #{bo.telPhone},
+            email = #{bo.email},
+            sex = #{bo.sex},
+            type = #{bo.type},
+            status = #{bo.status},
+            description = #{bo.description},
+            upd_time = now(),
+            upd_user = #{bo.updUser},
+            upd_name = #{bo.updName},
+            upd_host = #{bo.updHost}
+        where id = #{id}
+    </update>
+
+    <select id="query" resultMap="queryMap" parameterType="long">
+        select
+            id,
+            user_name,
+            password,
+            name,
+            birthday,
+            address,
+            mobile_phone,
+            tel_phone,
+            email,
+            sex,
+            type,
+            status,
+            description,
+            crt_time,
+            crt_user,
+            crt_name,
+            crt_host,
+            upd_time,
+            upd_user,
+            upd_name,
+            upd_host
+        from base_user
+        where id = #{id}
+    </select>
+    <!-- 指定字段映射关系 -->
+    <resultMap id="queryMap" type="baseUserBO">
+        <id column="id" property="id"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="mobile_phone" property="mobilePhone"></result>
+        <result column="tel_phone" property="telPhone"></result>
+        <result column="crt_time" property="crtTime"></result>
+        <result column="crt_user" property="crtUser"></result>
+        <result column="crt_name" property="crtName"></result>
+        <result column="crt_host" property="crtHost"></result>
+        <result column="upd_time" property="updTime"></result>
+        <result column="upd_user" property="updUser"></result>
+        <result column="upd_name" property="updName"></result>
+        <result column="upd_host" property="updHost"></result>
+    </resultMap>
+
+</mapper>

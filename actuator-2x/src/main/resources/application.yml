@@ -1,0 +1,9 @@
+server:
+  port: 10100
+
+management:
+  endpoint.shutdown.enabled: true # 开启shutdown
+  endpoints.web.exposure.include: "*" # 暴露所有端点
+  endpoint.health.show-details: always # health健康检查显示详细信息
+#  endpoints.web.base-path: /monitor # 监控端点url设置（默认是/actuator，2.0之前是/）
+#  server.port: 10101 # 监控端点单独配置（默认就是服务端口）

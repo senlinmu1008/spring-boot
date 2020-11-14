@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 指定别名方式一 -->
+    <!--<typeAliases>-->
+    <!--<typeAlias type="com.zxb.mybatis.domain.bo.AuthClientServiceBO" alias="authClientServiceBO"/>-->
+    <!--<typeAlias type="com.zxb.mybatis.domain.bo.BaseUserBO" alias="baseUserBO"/>-->
+    <!--</typeAliases>-->
+
+    <!-- 指定别名方式二，包内所有实体类类名首字母小写 -->
+    <typeAliases>
+        <package name="com.zxb.mybatis.domain.bo"/>
+    </typeAliases>
+
+</configuration>

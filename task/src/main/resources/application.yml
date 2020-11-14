@@ -1,0 +1,21 @@
+server:
+  port: 11000
+
+scheduleSwitch: true
+
+spring:
+  application:
+    name: task
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://148.70.153.63:3306/ttms?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialSize: 1
+    maxActive: 10
+    minIdle: 0
+    maxWait: 60000
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml

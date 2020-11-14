@@ -1,0 +1,20 @@
+server:
+  port: 11200
+
+spring:
+  redis:
+    cluster:
+      nodes:
+        - 148.70.153.63:9426
+        - 148.70.153.63:9427
+        - 148.70.153.63:9428
+        - 148.70.153.63:9429
+        - 148.70.153.63:9430
+        - 148.70.153.63:9431
+    password: PASSWORD(SYhF/xyC/VP2zOX+d64JBpHSk7ED10Ihw/BtTXic55AnNndBjFaw4Nkk0wOUKKoL)
+jasypt:
+  encryptor:
+    password: chili
+    property:
+      prefix: PASSWORD(
+      suffix: )

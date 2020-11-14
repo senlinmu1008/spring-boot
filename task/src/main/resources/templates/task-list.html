@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>定时任务管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<style type="text/css">
+    body {
+        width: 80%;
+        text-align: center;
+        margin: auto;
+    }
+
+    table {
+        text-align: center;
+        width: 100%;
+    }
+
+    a {
+        border: 1px black solid;
+        color: white;
+        margin: 3px;
+        background-color: cornflowerblue;
+    }
+</style>
+<body>
+<h1>任务调度中心</h1>
+<table>
+    <thead>
+    <tr>
+        <td>序号</td>
+        <td>beanName</td>
+        <td>cron表达式</td>
+        <td>任务描述</td>
+        <td>状态</td>
+        <td>操作</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task,iterStat:${taskList}">
+        <td th:text="${iterStat.count}"></td>
+        <td th:text="${task.beanName}"></td>
+        <td th:text="${task.cronExpression}"></td>
+        <td th:text="${task.taskDesc}"></td>
+        <td th:text="${task.status} == 1 ? '正常':'暂停'"></td>
+        <td>
+            <a style="cursor: pointer" th:attr="data-bean-name=${task.beanName},data-cron-expression=${task.cronExpression}"
+               onclick="editTaskCron(this)">编辑</a>
+            <a style="cursor: pointer" th:attr="data-bean-name=${task.beanName}"
+               onclick="runTaskCron(this)">执行</a>
+            <a style="cursor: pointer" th:attr="data-bean-name=${task.beanName},data-cron-status=${task.status}"
+               th:text="${task.status} == 1 ? '暂停':'恢复'"
+               onclick="changeStatusTaskCron(this)"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+<script type="text/javascript">
+    var errCode = {
+        0:"执行成功",
+        1:"设置成功",
+        2:"cron表达式非法"
+    };
+
+    function editTaskCron(aObj) {
+        var beanName = aObj.getAttribute("data-bean-name");
+        var cronExpression = aObj.getAttribute("data-cron-expression");
+        var newCron = window.prompt("请输入新的表达式:（需要到下次执行完才开始生效）", cronExpression);
+        if (newCron === null || newCron === '') {
+            return;
+        }
+        var formData = new FormData();
+        formData.append("newCron", newCron);
+        formData.append("beanName", beanName);
+        post("/scheduleManagement/editTaskCron", "/scheduleManagement/taskList", formData);
+    }
+
+    function runTaskCron(aObj) {
+        var beanName = aObj.getAttribute("data-bean-name");
+        var formData = new FormData();
+        formData.append("beanName", beanName);
+        post("/scheduleManagement/runTaskCron", "/scheduleManagement/taskList", formData);
+    }
+
+    function changeStatusTaskCron(aObj) {
+        var beanName = aObj.getAttribute("data-bean-name");
+        var status = aObj.getAttribute("data-cron-status");
+        status = status == 0 ? 1 : 0;
+        var formData = new FormData();
+        formData.append("beanName", beanName);
+        formData.append("status", status);
+        post("/scheduleManagement/changeStatusTaskCron", "/scheduleManagement/taskList", formData);
+    }
+
+    function post(reqUrl, successUrl, formData) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState != 4) {
+                return;
+            }
+            if(xhr.status == 200) {
+                alert(errCode[xhr.responseText] ? errCode[xhr.responseText] : "未知异常");
+                if(xhr.responseText == 1) {
+                    location.href = successUrl;
+                }
+            }else {
+                alert("请求失败，响应信息：\r\n" + xhr.responseText);
+            }
+        };
+        xhr.open("post", reqUrl, false);
+        xhr.send(formData);
+    }
+</script>
+</html>

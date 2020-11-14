@@ -1,0 +1,18 @@
+server:
+  port: 10900
+
+spring:
+  application:
+    name: swagger
+
+swagger:
+  docket:
+    swagger:
+      title: swagger
+      description: swagger接口测试
+      version: 1.0
+      contact:
+        name: zhaoxb
+      base-package: com.zxb.swagger.web
+      base-path: /**
+      exclude-path: /error, /ops/**
