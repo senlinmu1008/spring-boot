@@ -14,8 +14,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  *
  * @author zhaoxb
@@ -33,7 +31,6 @@ public class Resp_Detail {
     private String orgId;
 
     @ApiModelProperty(value = "机构名称", example = "大田后生仔机构", required = true)
-    @NotBlank(message = "机构名称不能为空")
     @JsonProperty("ORG_NAME")
     @JacksonXmlProperty(localName = "ORG_NAME")
     @XStreamAlias("ORG_NAME")
