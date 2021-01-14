@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,13 +34,13 @@ import java.util.stream.IntStream;
 public class SwaggerController {
 
     @ApiOperation(value = "json-mapping", notes = "测试请求报文字段映射转换-json")
-    @RequestMapping(value = "/json", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/json", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Resp_Entity json(@RequestBody @Validated Req_Entity request) {
         return response(request);
     }
 
     @ApiOperation(value = "xml-mapping", notes = "测试请求报文字段映射转换-xml")
-    @RequestMapping(value = "/xml", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
+    @PostMapping(value = "/xml", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public Resp_Entity xml(@RequestBody @Validated Req_Entity request) {
         return response(request);
     }
