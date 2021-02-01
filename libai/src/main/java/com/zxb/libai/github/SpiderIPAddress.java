@@ -19,6 +19,12 @@ public class SpiderIPAddress {
             "github.global.ssl.fastly.net",
             "raw.githubusercontent.com",
             "assets-cdn.github.com",
+            "avatars.githubusercontent.com",
+            "avatars0.githubusercontent.com",
+            "avatars1.githubusercontent.com",
+            "avatars2.githubusercontent.com",
+            "avatars3.githubusercontent.com",
+            "camo.githubusercontent.com",
     };
 
     public static final String LOOKUP_REGEX = "<h1>IP Lookup : (.*?) \\(";

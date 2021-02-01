@@ -49,4 +49,9 @@ public class TestCase {
 
         ftp.disconnect();
     }
+
+    @Test
+    @SneakyThrows
+    public void test() {
+    }
 }
