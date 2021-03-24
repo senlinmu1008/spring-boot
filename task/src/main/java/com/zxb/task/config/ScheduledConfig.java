@@ -62,7 +62,7 @@ public class ScheduledConfig implements SchedulingConfigurer {
                                 originSpringScheduleCron.setCronExpression(currentCronExpression);
                             }
                         } catch (Exception e) {
-                            log.error("=====定时任务更新cron表达式异常=====", e);
+                            log.error("=====更新cron表达式异常=====", e);
                         }
                         return new CronTrigger(originSpringScheduleCron.getCronExpression()).nextExecutionTime(triggerContext);
                     }
