@@ -8,6 +8,7 @@ import com.zxb.task.service.ScheduleService;
 import com.zxb.task.utils.SpringUtil;
 import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +27,15 @@ public class ScheduleManagement {
     @Autowired
     private SpringScheduleCronDao dao;
 
+    @Value("${spring.application.name:appId}")
+    private String appId;
+
     /**
      * 页面列表展示
      */
     @GetMapping("taskList")
     public String taskList(HttpServletRequest request) {
-        request.setAttribute("taskList", dao.findAll());
+        request.setAttribute("taskList", dao.findByAppId(appId));
         return "task-list";
     }
 
@@ -44,7 +48,7 @@ public class ScheduleManagement {
         if (!CronExpression.isValidExpression(newCron)) {
             return 2;
         }
-        dao.updateByBeanName(newCron, beanName);
+        dao.updateByBeanName(newCron, appId, beanName);
         return 1;
     }
 
@@ -63,10 +67,9 @@ public class ScheduleManagement {
      * 启用/禁用定时任务
      */
     @ResponseBody
-    @RequestMapping("changeStatusTaskCron")
-    public Integer changeStatusTaskCron(Byte status, String beanName) {
-        dao.changeStatus(status, beanName);
+    @RequestMapping("changeEnableTaskCron")
+    public Integer changeEnableTaskCron(Byte enable, String beanName) {
+        dao.changeEnable(enable, appId, beanName);
         return 1;
-
     }
 }

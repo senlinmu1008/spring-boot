@@ -34,7 +34,7 @@ public class SpringScheduleCron implements Serializable {
     /**
      * 状态 0-禁用 1-启用
      */
-    private Byte status;
+    private Byte enable;
 
     /**
      * 应用id
@@ -54,12 +54,12 @@ public class SpringScheduleCron implements Serializable {
                 Objects.equals(beanName, that.beanName) &&
                 Objects.equals(cronExpression, that.cronExpression) &&
                 Objects.equals(taskDesc, that.taskDesc) &&
-                Objects.equals(status, that.status) &&
+                Objects.equals(enable, that.enable) &&
                 Objects.equals(appId, that.appId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, beanName, cronExpression, taskDesc, status, appId);
+        return Objects.hash(id, beanName, cronExpression, taskDesc, enable, appId);
     }
 }

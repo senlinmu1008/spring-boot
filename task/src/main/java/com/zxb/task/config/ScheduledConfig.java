@@ -6,6 +6,7 @@ package com.zxb.task.config;
 import com.zxb.task.dao.SpringScheduleCronDao;
 import com.zxb.task.domain.SpringScheduleCron;
 import com.zxb.task.service.ScheduleService;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.util.List;
 
 /**
@@ -36,14 +39,21 @@ public class ScheduledConfig implements SchedulingConfigurer {
     @Value("${scheduleSwitch:false}")
     private boolean scheduleSwitch;
 
+    @Value("${spring.application.name:appId}")
+    private String appId;
+
+    @Value("${server.port}")
+    private String port;
+
     @Override
+    @SneakyThrows
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         // 定时任务开关
         if (!scheduleSwitch) {
             return;
         }
         // 查询所有定时任务
-        List<SpringScheduleCron> cronList = dao.findAll();
+        List<SpringScheduleCron> cronList = dao.findByAppId(appId);
         for (SpringScheduleCron originSpringScheduleCron : cronList) {
             ScheduleService scheduleBean = context.getBean(originSpringScheduleCron.getBeanName(), ScheduleService.class);
             // 注册定时任务
@@ -54,7 +64,7 @@ public class ScheduledConfig implements SchedulingConfigurer {
              */
             taskRegistrar.addTriggerTask(scheduleBean, triggerContext -> {
                         try {
-                            SpringScheduleCron springScheduleCron = dao.selectByBeanName(originSpringScheduleCron.getBeanName());
+                            SpringScheduleCron springScheduleCron = dao.findByBeanName(appId, originSpringScheduleCron.getBeanName());
                             String originalCronExpression = originSpringScheduleCron.getCronExpression();
                             String currentCronExpression = springScheduleCron.getCronExpression();
                             if (!originalCronExpression.equals(currentCronExpression) && CronExpression.isValidExpression(currentCronExpression)) {
@@ -68,5 +78,9 @@ public class ScheduledConfig implements SchedulingConfigurer {
                     }
             );
         }
+        // 定时任务管理界面
+        InetAddress localHost = Inet4Address.getLocalHost();
+        String contextPath = "http://".concat(localHost.getHostAddress()).concat(":").concat(port);
+        log.info("定时任务管理页面：{}", contextPath.concat("/scheduleManagement/taskList"));
     }
 }

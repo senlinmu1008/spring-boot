@@ -7,29 +7,32 @@
             bean_name,
             cron_expression,
             task_desc,
-            status,
+            enable,
             app_id
         from spring_schedule_cron
+        where app_id = #{appId}
     </sql>
 
-    <select id="findAll" resultType="SpringScheduleCron">
+    <select id="findByAppId" parameterType="String" resultType="SpringScheduleCron">
         <include refid="select"/>
     </select>
 
-    <select id="selectByBeanName" parameterType="String" resultType="SpringScheduleCron">
+    <select id="findByBeanName" resultType="SpringScheduleCron">
         <include refid="select"/>
-        where bean_name = #{beanName}
+        and bean_name = #{beanName}
     </select>
 
     <update id="updateByBeanName">
         update spring_schedule_cron
         set cron_expression = #{newCron,jdbcType=VARCHAR}
-        where bean_name = #{beanName}
+        where app_id = #{appId}
+        and bean_name = #{beanName}
     </update>
 
-    <update id="changeStatus">
+    <update id="changeEnable">
         update spring_schedule_cron
-        set status = #{status,jdbcType=NUMERIC}
-        where bean_name = #{beanName}
+        set enable = #{enable,jdbcType=NUMERIC}
+        where app_id = #{appId}
+        and bean_name = #{beanName}
     </update>
 </mapper>

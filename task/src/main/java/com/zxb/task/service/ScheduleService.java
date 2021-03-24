@@ -9,6 +9,7 @@ import com.zxb.task.domain.SpringScheduleCron;
 import com.zxb.task.utils.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 
 /**
  * 定时任务执行接口
@@ -28,9 +29,11 @@ public interface ScheduleService extends Runnable {
         String className = classPath.substring(classPath.lastIndexOf(".") + 1);
         String beanName = (className.charAt(0) + "").toLowerCase().concat(className.substring(1));
         // 查询是否启用
+        Environment environment = SpringUtil.getBean(Environment.class);
+        String appId = environment.getProperty("spring.application.name");
         SpringScheduleCronDao dao = SpringUtil.getBean(SpringScheduleCronDao.class);
-        SpringScheduleCron springScheduleCron = dao.selectByBeanName(beanName);
-        if (springScheduleCron.getStatus() != 1) {
+        SpringScheduleCron springScheduleCron = dao.findByBeanName(appId, beanName);
+        if (springScheduleCron.getEnable() != 1) {
             log.debug("=====[{}]不可用=====", beanName);
             return;
         }
