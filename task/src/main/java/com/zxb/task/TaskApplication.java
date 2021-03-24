@@ -35,12 +35,13 @@ public class TaskApplication {
     @ConditionalOnMissingBean(name = "scheduleTaskExecutor")
     public Executor scheduleTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(20);
-        executor.setMaxPoolSize(50);
-        executor.setQueueCapacity(200);
-        executor.setKeepAliveSeconds(60);
-        executor.setThreadNamePrefix("scheduleTask-");
-        executor.setAwaitTerminationSeconds(60 * 5);
+        executor.setCorePoolSize(20); // 核心线程数量，线程池创建时候初始化的线程数
+        executor.setMaxPoolSize(50); // 最大线程数，只有在缓冲队列满了之后才会申请超过核心线程数的线程
+        executor.setQueueCapacity(200); // 缓冲队列，用来缓冲执行任务的队列
+        executor.setKeepAliveSeconds(60); // 当超过了核心线程出之外的线程在空闲时间到达之后会被销毁
+        executor.setThreadNamePrefix("scheduleTask-"); // 线程名前缀
+        executor.setWaitForTasksToCompleteOnShutdown(true); // 用来设置线程池关闭的时候等待所有任务都完成再继续销毁其他的Bean
+        executor.setAwaitTerminationSeconds(60 * 5); // 该方法用来设置线程池中任务的等待时间，如果超过这个时候还没有销毁就强制销毁，以确保应用最后能够被关闭，而不是阻塞住。
         /*
         1.AbortPolicy，ThreadPoolExecutor中默认的拒绝策略就是AbortPolicy，直接抛出异常。
         2.CallerRunsPolicy，CallerRunsPolicy在任务被拒绝添加后，会调用当前线程池的所在的线程去执行被拒绝的任务。
