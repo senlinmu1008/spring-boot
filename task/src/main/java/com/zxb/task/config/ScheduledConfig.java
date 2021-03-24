@@ -7,6 +7,7 @@ import com.zxb.task.dao.SpringScheduleCronDao;
 import com.zxb.task.domain.SpringScheduleCron;
 import com.zxb.task.service.ScheduleService;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -46,16 +47,24 @@ public class ScheduledConfig implements SchedulingConfigurer {
         for (SpringScheduleCron originSpringScheduleCron : cronList) {
             ScheduleService scheduleBean = context.getBean(originSpringScheduleCron.getBeanName(), ScheduleService.class);
             // 注册定时任务
+            /*
+            每次定时任务执行时，都会按顺序执行以下代码
+            1.执行scheduleBean的run函数（在ScheduleService接口实现的Runnable方法），可以异步执行
+            2.从表中查询当前定时任务最新的配置参数，更新下一次的执行周期
+             */
             taskRegistrar.addTriggerTask(scheduleBean, triggerContext -> {
-                        /*
-                        每次定时任务执行时，都会执行以下代码
-                        1.从表中查询当前定时任务最新的配置参数，更新下一次的执行周期
-                        2.执行具体的定时任务业务逻辑
-                         */
-                        SpringScheduleCron springScheduleCron = dao.selectByBeanName(originSpringScheduleCron.getBeanName());
-                        String cronExpression = springScheduleCron.getCronExpression();
-                        log.debug("=====更新[{}]最新cron表达式[{}]=====", originSpringScheduleCron.getBeanName(), cronExpression);
-                        return new CronTrigger(cronExpression).nextExecutionTime(triggerContext);
+                        try {
+                            SpringScheduleCron springScheduleCron = dao.selectByBeanName(originSpringScheduleCron.getBeanName());
+                            String originalCronExpression = originSpringScheduleCron.getCronExpression();
+                            String currentCronExpression = springScheduleCron.getCronExpression();
+                            if (!originalCronExpression.equals(currentCronExpression) && CronExpression.isValidExpression(currentCronExpression)) {
+                                log.info("=====更新[{}]最新cron表达式[{}]=====", originSpringScheduleCron.getBeanName(), currentCronExpression);
+                                originSpringScheduleCron.setCronExpression(currentCronExpression);
+                            }
+                        } catch (Exception e) {
+                            log.error("=====定时任务更新cron表达式异常=====", e);
+                        }
+                        return new CronTrigger(originSpringScheduleCron.getCronExpression()).nextExecutionTime(triggerContext);
                     }
             );
         }
