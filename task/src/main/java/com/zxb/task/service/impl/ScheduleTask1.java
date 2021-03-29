@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-@Async("scheduleTaskExecutor")
+@Async
 public class ScheduleTask1 implements ScheduleService {
     @Override
     public void execute() {
