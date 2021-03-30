@@ -98,7 +98,7 @@
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.3</version>
+            <version>1.4.15</version>
         </dependency>
         <!-- 请求报文字段映射转换 -->
         <dependency>
