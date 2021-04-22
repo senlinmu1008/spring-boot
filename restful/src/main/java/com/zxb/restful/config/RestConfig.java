@@ -44,7 +44,7 @@ public class RestConfig {
         // 设置超时，如果 RestTemplateBuilder 已经设置，这里就不需要设置
 //        clientHttpRequestFactory.setConnectTimeout(5 * 1000); // 连接超时
 //        clientHttpRequestFactory.setReadTimeout(30 * 1000); // 数据读取超时时间
-        clientHttpRequestFactory.setConnectionRequestTimeout(30 * 1000); //连接不够用的等待时间
+        clientHttpRequestFactory.setConnectionRequestTimeout(30 * 1000); // 连接不够用时的等待时间
         return clientHttpRequestFactory;
     }
 }
