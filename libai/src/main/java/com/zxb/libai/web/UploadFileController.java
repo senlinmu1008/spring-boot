@@ -23,13 +23,15 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 public class UploadFileController {
+    private String basePath = "/Users/zhaoxiaobin/Desktop/";
+
     @PostMapping(value = "/uploadFileAsBinary", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public String uploadFileAsBinary(@RequestHeader HttpHeaders headers, HttpServletRequest request) throws IOException {
         // 打印请求头
         headers.forEach((key, list) -> System.out.println(key + ":" + list.stream().collect(Collectors.joining(","))));
         // 写文件
         @Cleanup ServletInputStream inputStream = request.getInputStream();
-        FileUtil.writeFromStream(inputStream, "/Users/zhaoxiaobin/Desktop/" + System.currentTimeMillis() + ".pdf");
+        FileUtil.writeFromStream(inputStream, basePath + System.currentTimeMillis() + ".pdf");
         return "uploadFileAsBinary 成功";
     }
 
@@ -39,9 +41,9 @@ public class UploadFileController {
         headers.forEach((key, list) -> System.out.println(key + ":" + list.stream().collect(Collectors.joining(","))));
         // 写文件
         @Cleanup InputStream inputStream1 = file1.getInputStream();
-        FileUtil.writeFromStream(inputStream1, "/Users/zhaoxiaobin/Desktop/" + fileName1);
+        FileUtil.writeFromStream(inputStream1, basePath + fileName1);
         @Cleanup InputStream inputStream2 = file2.getInputStream();
-        FileUtil.writeFromStream(inputStream2, "/Users/zhaoxiaobin/Desktop/" + fileName2);
+        FileUtil.writeFromStream(inputStream2, basePath + fileName2);
         return "uploadFileAsMultipart 成功";
     }
 }

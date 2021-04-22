@@ -25,9 +25,17 @@ import static com.zxb.libai.utils.HttpFileTransferUtils.DEFAULT_READ_TIMEOUT;
  * @date 2021/04/17 3:35 下午
  */
 public class TestUploadFileByHttp {
+    private String uploadFileAsBinaryUrl = "http://127.0.0.1:11100/uploadFileAsBinary";
+    
+    private String uploadFileAsMultipart = "http://127.0.0.1:11100/uploadFileAsMultipart";
+    
+    private String filePath1 = "/Users/zhaoxiaobin/Documents/markdown/docs/16120108773457.md";
+    
+    private String filePath2 = "/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf";
+    
     @Test
     public void testUploadFileAsBinary1() {
-        String responseBody = HttpFileTransferUtils.uploadFileAsBinary("http://127.0.0.1:11100/uploadFileAsBinary", "/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf");
+        String responseBody = HttpFileTransferUtils.uploadFileAsBinary(uploadFileAsBinaryUrl, filePath2);
         System.out.println(responseBody);
     }
 
@@ -37,10 +45,10 @@ public class TestUploadFileByHttp {
         headers.put("head1", "123");
         headers.put("head2", "456");
         headers.put("head3", "789");
-        String responseBody = HttpFileTransferUtils.uploadFileAsBinary("http://127.0.0.1:11100/uploadFileAsBinary",
+        String responseBody = HttpFileTransferUtils.uploadFileAsBinary(uploadFileAsBinaryUrl,
                 ContentType.APPLICATION_OCTET_STREAM,
                 headers,
-                "/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf",
+                filePath2,
                 DEFAULT_READ_TIMEOUT,
                 Consts.UTF_8);
         System.out.println(responseBody);
@@ -49,15 +57,15 @@ public class TestUploadFileByHttp {
     @Test
     public void testUploadFileAsMultipart1() {
         Map<String, File> files = new HashMap<>();
-        files.put("file1", new File("/Users/zhaoxiaobin/Documents/markdown/docs/16120108773457.md"));
-        files.put("file2", new File("/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf"));
+        File file1 = new File(filePath1);
+        File file2 = new File(filePath2);
+        files.put("file1", file1);
+        files.put("file2", file2);
 
         Map<String, String> formData = new HashMap<>();
-        formData.put("fileName1", "16120108773457.md");
-        formData.put("fileName2", "Java开发手册（嵩山版）.pdf");
-        String responseBody = HttpFileTransferUtils.uploadFileAsMultipart("http://127.0.0.1:11100/uploadFileAsMultipart",
-                files,
-                formData);
+        formData.put("fileName1", file1.getName());
+        formData.put("fileName2", file2.getName());
+        String responseBody = HttpFileTransferUtils.uploadFileAsMultipart(uploadFileAsMultipart, files, formData);
         System.out.println(responseBody);
     }
 
@@ -69,13 +77,15 @@ public class TestUploadFileByHttp {
         headers.put("head3", "789");
 
         Map<String, File> files = new HashMap<>();
-        files.put("file1", new File("/Users/zhaoxiaobin/Documents/markdown/docs/16120108773457.md"));
-        files.put("file2", new File("/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf"));
+        File file1 = new File(filePath1);
+        File file2 = new File(filePath2);
+        files.put("file1", file1);
+        files.put("file2", file2);
 
         Map<String, String> formData = new HashMap<>();
-        formData.put("fileName1", "16120108773457.md");
-        formData.put("fileName2", "Java开发手册（嵩山版）.pdf");
-        String responseBody = HttpFileTransferUtils.uploadFileAsMultipart("http://127.0.0.1:11100/uploadFileAsMultipart",
+        formData.put("fileName1", file1.getName());
+        formData.put("fileName2", file2.getName());
+        String responseBody = HttpFileTransferUtils.uploadFileAsMultipart(uploadFileAsMultipart,
                 headers,
                 files,
                 formData,
@@ -86,11 +96,13 @@ public class TestUploadFileByHttp {
 
     @Test
     public void testByHutool() {
-        HttpResponse httpResponse = HttpRequest.post("http://127.0.0.1:11100/uploadFileAsMultipart")
-                .form("file1", new File("/Users/zhaoxiaobin/Documents/markdown/docs/16120108773457.md"))
-                .form("file2", new File("/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf"))
-                .form("fileName1", "16120108773457.md")
-                .form("fileName2", "Java开发手册（嵩山版）.pdf")
+        File file1 = new File(filePath1);
+        File file2 = new File(filePath2);
+        HttpResponse httpResponse = HttpRequest.post(uploadFileAsMultipart)
+                .form("file1", file1)
+                .form("file2", file2)
+                .form("fileName1", file1.getName())
+                .form("fileName2", file2.getName())
                 .execute();
         System.out.println(httpResponse.body());
     }
@@ -102,16 +114,16 @@ public class TestUploadFileByHttp {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         // 设置请求体，注意是LinkedMultiValueMap
-        FileSystemResource fileSystemResource1 = new FileSystemResource("/Users/zhaoxiaobin/Documents/markdown/docs/16120108773457.md");
-        FileSystemResource fileSystemResource2 = new FileSystemResource("/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf");
+        FileSystemResource fileSystemResource1 = new FileSystemResource(filePath1);
+        FileSystemResource fileSystemResource2 = new FileSystemResource(filePath2);
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
         form.add("file1", fileSystemResource1);
         form.add("file2", fileSystemResource2);
-        form.add("fileName1", "16120108773457.md");
-        form.add("fileName2", "Java开发手册（嵩山版）.pdf");
+        form.add("fileName1", fileSystemResource1.getFilename());
+        form.add("fileName2", fileSystemResource2.getFilename());
         HttpEntity<MultiValueMap<String, Object>> files = new HttpEntity<>(form, headers);
         // 发起请求
-        String httpResponse = restTemplate.postForObject("http://127.0.0.1:11100/uploadFileAsMultipart", files, String.class);
+        String httpResponse = restTemplate.postForObject(uploadFileAsMultipart, files, String.class);
         System.out.println(httpResponse);
     }
 }

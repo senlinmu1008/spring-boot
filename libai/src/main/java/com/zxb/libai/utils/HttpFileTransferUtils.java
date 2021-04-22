@@ -113,6 +113,30 @@ public class HttpFileTransferUtils {
     /**
      * multipart表单方式上传文件
      *
+     * @param url         请求地址
+     * @param files       本地文件map
+     * @param readTimeout 超时时间，单位：毫秒 默认300秒
+     * @return
+     */
+    public static String uploadFileAsMultipart(String url, Map<String, File> files, int readTimeout) {
+        return uploadFileAsMultipart(url, new HashMap<>(), files, new HashMap<>(), readTimeout, Consts.UTF_8);
+    }
+
+    /**
+     * multipart表单方式上传文件
+     *
+     * @param url     请求地址
+     * @param files   本地文件map
+     * @param charset 字符集 默认UTF-8，http响应体编码优先取响应Entity中的字符集
+     * @return
+     */
+    public static String uploadFileAsMultipart(String url, Map<String, File> files, Charset charset) {
+        return uploadFileAsMultipart(url, new HashMap<>(), files, new HashMap<>(), DEFAULT_READ_TIMEOUT, charset);
+    }
+
+    /**
+     * multipart表单方式上传文件
+     *
      * @param url      请求地址
      * @param files    本地文件map
      * @param formData 表单数据，K-V格式
@@ -196,8 +220,8 @@ public class HttpFileTransferUtils {
         httpPost.setConfig(requestConfig);
         // 添加http请求头
         headers.forEach((key, value) -> httpPost.addHeader(key, value));
-        // 判断上传方式
         HttpEntity httpEntity = null;
+        // 判断上传方式
         if (isMultipart) {
             MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
             // 添加文件
@@ -210,6 +234,7 @@ public class HttpFileTransferUtils {
         InputStream inputStream = null;
         CloseableHttpResponse httpResponse = null;
         try {
+            // 如果是二进制方式上传
             if (!isMultipart) {
                 File uploadFile = files.values().stream().findFirst().get();
                 inputStream = new FileInputStream(uploadFile);
