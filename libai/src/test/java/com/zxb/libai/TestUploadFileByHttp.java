@@ -1,22 +1,24 @@
 package com.zxb.libai;
 
-import lombok.Cleanup;
-import lombok.SneakyThrows;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import com.zxb.libai.utils.HttpFileTransferUtils;
+import org.apache.http.Consts;
+import org.apache.http.entity.ContentType;
 import org.junit.Test;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.zxb.libai.utils.HttpFileTransferUtils.DEFAULT_READ_TIMEOUT;
 
 /**
  * @author zhaoxb
@@ -24,62 +26,92 @@ import java.io.FileInputStream;
  */
 public class TestUploadFileByHttp {
     @Test
-    @SneakyThrows
-    public void test1() {
-        @Cleanup CloseableHttpClient ht = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost("http://127.0.0.1:11100/uploadFile");
-        HttpResponse rs;
-        InputStreamEntity inputStreamEntity = null;
-        try {
-            File testFile = new File("/Users/zhaoxiaobin/Documents/.rar/71.zip");
-            System.out.println(testFile.exists());
-            //文件流包装到FileBody
-            inputStreamEntity = new InputStreamEntity(new FileInputStream(testFile), testFile.length());
-            post.setEntity(inputStreamEntity);
-            //设置请求内容类型（若不显式地设置，默认text/plain;不同的类型服务端解析格式不同，可能导致参请求参数解析不到的情况）
-            post.addHeader("Content-Type", "application/octet-stream");
-            //发送请求
-            rs = ht.execute(post);
-            System.out.println("" + rs.getStatusLine().getStatusCode() + " " + EntityUtils.toString(rs.getEntity(), "utf-8"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // 销毁
-            EntityUtils.consume(inputStreamEntity);
-        }
+    public void testUploadFileAsBinary1() {
+        String responseBody = HttpFileTransferUtils.uploadFileAsBinary("http://127.0.0.1:11100/uploadFileAsBinary", "/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf");
+        System.out.println(responseBody);
     }
 
     @Test
-    @SneakyThrows
-    public void test2() {
-        @Cleanup CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("http://127.0.0.1:11100/uploadMultipartFile");
+    public void testUploadFileAsBinary2() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("head1", "123");
+        headers.put("head2", "456");
+        headers.put("head3", "789");
+        String responseBody = HttpFileTransferUtils.uploadFileAsBinary("http://127.0.0.1:11100/uploadFileAsBinary",
+                ContentType.APPLICATION_OCTET_STREAM,
+                headers,
+                "/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf",
+                DEFAULT_READ_TIMEOUT,
+                Consts.UTF_8);
+        System.out.println(responseBody);
+    }
 
-//        方式一
-//        MultipartEntityBuil der builder = Multi partEntityBuilder.create();
-////        builder.addTextBody("username", "John");
-////        builder.addTextBody("password", "pass");
-//        builder.addBinaryBody("file",
-//                new File("/Users/zhaoxiaobin/Documents/tienon/nginx/nginx.conf"), ContentType.APPLICATION_OCTET_STREAM, "file.ext");
-//        HttpEntity multipart = builder.build();
+    @Test
+    public void testUploadFileAsMultipart1() {
+        Map<String, File> files = new HashMap<>();
+        files.put("file1", new File("/Users/zhaoxiaobin/Documents/markdown/docs/16120108773457.md"));
+        files.put("file2", new File("/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf"));
 
-//        方式二
-//        StringBody userName = new StringBody("Scott", ContentType.create(
-//                "text/plain", Consts.UTF_8));
-//        StringBody password = new StringBody("123456", ContentType.create(
-//                "text/plain", Consts.UTF_8));
-        HttpEntity multipart = MultipartEntityBuilder.create()
-                // 相当于<input type="file" name="file"/>
-                .addPart("file", new FileBody(new File("/Users/zhaoxiaobin/Documents/tienon/nginx/nginx.conf")))
-                // 相当于<input type="text" name="userName" value=userName>
-//                .addPart("userName", userName)
-//                .addPart("pass", password)
-                .build();
+        Map<String, String> formData = new HashMap<>();
+        formData.put("fileName1", "16120108773457.md");
+        formData.put("fileName2", "Java开发手册（嵩山版）.pdf");
+        String responseBody = HttpFileTransferUtils.uploadFileAsMultipart("http://127.0.0.1:11100/uploadFileAsMultipart",
+                files,
+                formData);
+        System.out.println(responseBody);
+    }
 
-        httpPost.setEntity(multipart);
-        @Cleanup CloseableHttpResponse response = client.execute(httpPost);
-        HttpEntity responseEntity = response.getEntity();
-        System.out.println(EntityUtils.toString(responseEntity));
-        EntityUtils.consume(responseEntity);
+    @Test
+    public void testUploadFileAsMultipart2() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("head1", "123");
+        headers.put("head2", "456");
+        headers.put("head3", "789");
+
+        Map<String, File> files = new HashMap<>();
+        files.put("file1", new File("/Users/zhaoxiaobin/Documents/markdown/docs/16120108773457.md"));
+        files.put("file2", new File("/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf"));
+
+        Map<String, String> formData = new HashMap<>();
+        formData.put("fileName1", "16120108773457.md");
+        formData.put("fileName2", "Java开发手册（嵩山版）.pdf");
+        String responseBody = HttpFileTransferUtils.uploadFileAsMultipart("http://127.0.0.1:11100/uploadFileAsMultipart",
+                headers,
+                files,
+                formData,
+                DEFAULT_READ_TIMEOUT,
+                Consts.UTF_8);
+        System.out.println(responseBody);
+    }
+
+    @Test
+    public void testByHutool() {
+        HttpResponse httpResponse = HttpRequest.post("http://127.0.0.1:11100/uploadFileAsMultipart")
+                .form("file1", new File("/Users/zhaoxiaobin/Documents/markdown/docs/16120108773457.md"))
+                .form("file2", new File("/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf"))
+                .form("fileName1", "16120108773457.md")
+                .form("fileName2", "Java开发手册（嵩山版）.pdf")
+                .execute();
+        System.out.println(httpResponse.body());
+    }
+
+    @Test
+    public void testByRestTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        // 设置请求头
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        // 设置请求体，注意是LinkedMultiValueMap
+        FileSystemResource fileSystemResource1 = new FileSystemResource("/Users/zhaoxiaobin/Documents/markdown/docs/16120108773457.md");
+        FileSystemResource fileSystemResource2 = new FileSystemResource("/Users/zhaoxiaobin/Documents/doc/阿里云/Java开发手册（嵩山版）.pdf");
+        MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
+        form.add("file1", fileSystemResource1);
+        form.add("file2", fileSystemResource2);
+        form.add("fileName1", "16120108773457.md");
+        form.add("fileName2", "Java开发手册（嵩山版）.pdf");
+        HttpEntity<MultiValueMap<String, Object>> files = new HttpEntity<>(form, headers);
+        // 发起请求
+        String httpResponse = restTemplate.postForObject("http://127.0.0.1:11100/uploadFileAsMultipart", files, String.class);
+        System.out.println(httpResponse);
     }
 }
