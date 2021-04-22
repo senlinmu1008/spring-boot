@@ -33,7 +33,7 @@ public class HttpFileTransferUtils {
     /**
      * 默认超时时间
      */
-    public static final int DEFAULT_READ_TIMEOUT = 30000;
+    public static final int DEFAULT_READ_TIMEOUT = 300000;
 
     /**
      * 以二进制形式上传文件
