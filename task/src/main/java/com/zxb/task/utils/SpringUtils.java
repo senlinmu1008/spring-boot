@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
  * @create 2020-04-14 23:38
  */
 @Component
-public class SpringUtil implements ApplicationContextAware {
+public class SpringUtils implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringUtil.applicationContext = applicationContext;
+        SpringUtils.applicationContext = applicationContext;
     }
 
     public static <T> T getBean(Class<T> tClass){
