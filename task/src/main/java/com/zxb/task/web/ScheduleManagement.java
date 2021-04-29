@@ -5,7 +5,7 @@ package com.zxb.task.web;
 
 import com.zxb.task.dao.SpringScheduleCronDao;
 import com.zxb.task.service.ScheduleService;
-import com.zxb.task.utils.SpringUtils;
+import com.zxb.task.utils.SpringUtil;
 import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +58,7 @@ public class ScheduleManagement {
     @ResponseBody
     @RequestMapping("runTaskCron")
     public Integer runTaskCron(String beanName) {
-        ScheduleService scheduleService = SpringUtils.getBean(beanName, ScheduleService.class);
+        ScheduleService scheduleService = SpringUtil.getBean(beanName, ScheduleService.class);
         scheduleService.execute();
         return 0;
     }
