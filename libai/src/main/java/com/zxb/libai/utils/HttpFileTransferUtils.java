@@ -267,7 +267,6 @@ public class HttpFileTransferUtils {
                 }
             } catch (IOException e) {
                 logger.error("释放资源失败", e);
-                throw new RuntimeException("释放资源失败");
             }
         }
     }

@@ -3,7 +3,7 @@
  */
 package com.zxb.libai;
 
-import com.zxb.libai.utils.SFTPUtil;
+import com.zxb.libai.utils.SFTPUtils;
 import lombok.SneakyThrows;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ import org.junit.Test;
 public class TestCase {
     @Test
     public void testSFTP() {
-        SFTPUtil ftp = new SFTPUtil("172.16.122.104", "root", "zxb123");
+        SFTPUtils ftp = new SFTPUtils("172.16.122.104", "root", "zxb123");
         ftp.connect();
 
         String localPath = "/users/zhaoxiaobin/desktop/"; // 本地路径

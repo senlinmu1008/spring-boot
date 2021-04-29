@@ -3,7 +3,7 @@
  */
 package com.zxb.libai.encrypt;
 
-import com.zxb.libai.utils.AESUtil;
+import com.zxb.libai.utils.AESUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -19,9 +19,9 @@ public class AES {
     @Test
     public void testAES() {
         String content = "{\"name:\":\"zxb\"}";
-        String encryptStr = AESUtil.encrypt(content, KEY);
+        String encryptStr = AESUtils.encrypt(content, KEY);
         log.info("加密后:{}", encryptStr);
-        String msg = AESUtil.decrypt(encryptStr, KEY);
+        String msg = AESUtils.decrypt(encryptStr, KEY);
         log.info("解密后:{}", msg);
     }
 }
