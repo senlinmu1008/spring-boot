@@ -20,7 +20,7 @@ import java.util.Vector;
  * @create 2020-02-25 12:45
  */
 @Slf4j
-public class SFTPUtils {
+public class SFTPUtil {
     private String host;
     private String username;
     private String password;
@@ -28,17 +28,17 @@ public class SFTPUtils {
     private ChannelSftp sftp;
     private Session sshSession;
 
-    public SFTPUtils() {
+    public SFTPUtil() {
     }
 
-    public SFTPUtils(String host, String username, String password, int port) {
+    public SFTPUtil(String host, String username, String password, int port) {
         this.host = host;
         this.username = username;
         this.password = password;
         this.port = port;
     }
 
-    public SFTPUtils(String host, String username, String password) {
+    public SFTPUtil(String host, String username, String password) {
         this.host = host;
         this.username = username;
         this.password = password;

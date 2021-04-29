@@ -19,7 +19,7 @@ import java.security.SecureRandom;
  * @author zhaoxb
  * @create 2020-01-08 14:40
  */
-public class AESUtils {
+public class AESUtil {
     public static final String KEY_AES = "AES";
     public static final String SHA = "SHA1PRNG";
 

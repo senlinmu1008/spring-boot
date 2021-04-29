@@ -15,7 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
  * @create 2019-09-30 20:48
  */
 @Slf4j
-public class MyUtils {
+public class MyUtil {
     /**
      * 取ip地址最后一段作为workerId
      */
