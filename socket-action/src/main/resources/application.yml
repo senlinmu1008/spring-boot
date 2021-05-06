@@ -1,0 +1,19 @@
+server:
+  port: 11300
+
+spring:
+  application:
+    name: socket-action
+
+socket.in:
+  socketChannelConfigList:
+    - port: 29394
+      beanName: protocolDecoderAdapterImpl1
+    - port: 39394
+      beanName: protocolDecoderAdapterImpl2
+      readTimeout: 10000
+    - port: 49394
+      beanName: protocolDecoderAdapterImpl3
+      readTimeout: 15000
+    - port: 59394
+      beanName: protocolDecoderAdapterImpl4

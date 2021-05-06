@@ -20,6 +20,7 @@
         <module>restful</module>
         <module>swagger</module>
         <module>task</module>
+        <module>socket-action</module>
     </modules>
 
     <parent>
