@@ -1,6 +1,7 @@
 package net.zhaoxiaobin.socket;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.thread.ThreadUtil;
 import lombok.Cleanup;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,6 +16,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.stream.IntStream;
 
 /**
  * @author zhaoxb
@@ -96,5 +98,18 @@ public class SocketTests {
         InputStream inputStream = socket.getInputStream();
         String response = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
         logger.info("响应报文:{}", response);
+    }
+
+    @Test
+    public void testConcurrency() {
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "4");
+        IntStream.range(Integer.MIN_VALUE, Integer.MAX_VALUE).parallel().forEach(i -> {
+            try {
+                this.testReadUntilEOF();
+            } catch (IOException e) {
+                logger.error("异常", e);
+            }
+            ThreadUtil.sleep(1000L);
+        });
     }
 }

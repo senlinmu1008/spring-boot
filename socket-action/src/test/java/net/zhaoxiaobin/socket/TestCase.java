@@ -9,12 +9,15 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zhaoxb
  * @date 2021-05-07 9:43 上午
  */
-public class ParseXmlTests {
+public class TestCase {
     private String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<socket>\n" +
             "    <channel>\n" +
@@ -38,5 +41,16 @@ public class ParseXmlTests {
         for (SocketChannelConfig socketChannelConfig : socketChannelConfigList) {
             System.out.println(JSONUtil.toJsonPrettyStr(socketChannelConfig));
         }
+    }
+
+    @Test
+    public void testAtomicInteger() {
+        Map<String, AtomicInteger> map = new ConcurrentHashMap<>();
+        map.put("aa", new AtomicInteger());
+        map.get("aa").incrementAndGet();
+        map.get("aa").incrementAndGet();
+        map.get("aa").incrementAndGet();
+        map.get("aa").incrementAndGet();
+        System.out.println(map.get("aa").intValue());
     }
 }

@@ -3,5 +3,6 @@
     <channel>
         <port>29394</port>
         <beanName>socketServiceImpl1</beanName>
+        <maxConcurrency>1</maxConcurrency>
     </channel>
 </socket>

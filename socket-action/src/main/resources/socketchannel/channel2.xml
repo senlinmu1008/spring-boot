@@ -4,5 +4,6 @@
         <port>39394</port>
         <beanName>socketServiceImpl2</beanName>
         <readTimeout>10000</readTimeout>
+        <maxConcurrency>3</maxConcurrency>
     </channel>
 </socket>

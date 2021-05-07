@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENCY_MAP;
+
 /**
  * @author zhaoxb
  * @date 2021-04-27 2:21 下午
@@ -33,10 +35,12 @@ public class TcpProtocolHandler implements Runnable {
 
     @Override
     public void run() {
-        // 获取处理业务的bean
-        String beanName = socketChannelConfig.getBeanName();
-        ITcpProtocolAdapter tcpProtocolAdapter = SpringUtils.getBean(beanName, ITcpProtocolAdapter.class);
+        // 接入计数+1
+        MAX_CONCURRENCY_MAP.get(socketChannelConfig.getPort()).incrementAndGet();
         try (Socket socket = this.socket) {
+            // 获取处理业务的bean
+            String beanName = socketChannelConfig.getBeanName();
+            ITcpProtocolAdapter tcpProtocolAdapter = SpringUtils.getBean(beanName, ITcpProtocolAdapter.class);
             // 处理业务
             byte[] resultBytes = tcpProtocolAdapter.decoder(socket, socketChannelConfig);
             // 返回
@@ -46,6 +50,9 @@ public class TcpProtocolHandler implements Runnable {
         } catch (IOException e) {
             logger.error("处理socket交易异常", e);
             throw new RuntimeException("处理socket交易异常");
+        } finally {
+            // 释放当前的交易计数
+            MAX_CONCURRENCY_MAP.get(socketChannelConfig.getPort()).decrementAndGet();
         }
     }
 }

@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENT;
 import static net.zhaoxiaobin.socket.utils.SocketUtils.DEFAULT_READ_TIMEOUT;
 
 /**
@@ -61,6 +62,9 @@ public class SocketChannelConfigParse implements InitializingBean {
                 }
                 if (socketChannelConfig.getReadTimeout() < DEFAULT_READ_TIMEOUT) {
                     socketChannelConfig.setReadTimeout(DEFAULT_READ_TIMEOUT);
+                }
+                if (socketChannelConfig.getMaxConcurrency() <= 0) {
+                    socketChannelConfig.setMaxConcurrency(MAX_CONCURRENT);
                 }
             });
             this.socketChannelConfigList.addAll(socketChannelConfigList);
