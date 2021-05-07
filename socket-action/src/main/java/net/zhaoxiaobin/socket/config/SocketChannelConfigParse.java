@@ -38,11 +38,17 @@ public class SocketChannelConfigParse implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         logger.info("开始解析socket接入渠道配置文件");
         for (Resource resource : configurations) {
+            String xmlContent = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+            if (StringUtils.isBlank(xmlContent)) {
+                return;
+            }
             XmlMapper mapper = new XmlMapper();
             // 如果xml中有节点，但实体类中没有属性对应，不报错处理
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            String xmlContent = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
             List<SocketChannelConfig> socketChannelConfigList = mapper.readValue(xmlContent, SocketInConfigProperties.class).getSocketChannelConfigList();
+            if (socketChannelConfigList == null) {
+                return;
+            }
             // 校验必填字段
             socketChannelConfigList.forEach(socketChannelConfig -> {
                 if (socketChannelConfig.getPort() == 0) {
