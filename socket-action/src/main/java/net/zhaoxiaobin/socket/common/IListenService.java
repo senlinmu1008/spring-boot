@@ -1,4 +1,4 @@
-package net.zhaoxiaobin.socket.service;
+package net.zhaoxiaobin.socket.common;
 
 import net.zhaoxiaobin.socket.config.domain.SocketChannelConfig;
 

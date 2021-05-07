@@ -1,7 +1,7 @@
 package net.zhaoxiaobin.socket.listener;
 
 import net.zhaoxiaobin.socket.config.SocketChannelConfigParse;
-import net.zhaoxiaobin.socket.service.IListenService;
+import net.zhaoxiaobin.socket.common.IListenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

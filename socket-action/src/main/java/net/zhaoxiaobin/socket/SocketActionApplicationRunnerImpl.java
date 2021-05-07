@@ -1,7 +1,7 @@
 package net.zhaoxiaobin.socket;
 
 import net.zhaoxiaobin.socket.config.domain.SocketInConfigProperties;
-import net.zhaoxiaobin.socket.service.IListenService;
+import net.zhaoxiaobin.socket.common.IListenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

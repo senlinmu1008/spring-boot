@@ -1,8 +1,8 @@
-package net.zhaoxiaobin.socket.service.impl;
+package net.zhaoxiaobin.socket.common.impl;
 
 import net.zhaoxiaobin.socket.config.domain.SocketChannelConfig;
 import net.zhaoxiaobin.socket.protocol.TcpProtocolHandler;
-import net.zhaoxiaobin.socket.service.IListenService;
+import net.zhaoxiaobin.socket.common.IListenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
