@@ -61,9 +61,11 @@ public class SocketChannelConfigParse implements InitializingBean {
                     throw new RuntimeException("配置文件:" + resource.getFilename() + "接入渠道beanName没有配置");
                 }
                 if (socketChannelConfig.getReadTimeout() < DEFAULT_READ_TIMEOUT) {
+                    logger.warn("端口:{}渠道设置的读取超时时间:{}不合理,重新设为:{}", socketChannelConfig.getPort(), socketChannelConfig.getReadTimeout(), DEFAULT_READ_TIMEOUT);
                     socketChannelConfig.setReadTimeout(DEFAULT_READ_TIMEOUT);
                 }
                 if (socketChannelConfig.getMaxConcurrency() <= 0) {
+                    logger.warn("端口:{}渠道设置的最大并发数:{}不合理,重新设为:{}", socketChannelConfig.getPort(), socketChannelConfig.getMaxConcurrency(), MAX_CONCURRENT);
                     socketChannelConfig.setMaxConcurrency(MAX_CONCURRENT);
                 }
             });
