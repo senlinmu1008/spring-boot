@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<socket>
+    <channel>
+        <port>29394</port>
+        <beanName>socketServiceImpl1</beanName>
+    </channel>
+</socket>

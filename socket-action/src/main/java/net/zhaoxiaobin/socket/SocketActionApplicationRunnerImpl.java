@@ -2,7 +2,7 @@ package net.zhaoxiaobin.socket;
 
 import net.zhaoxiaobin.socket.config.domain.SocketChannelConfig;
 import net.zhaoxiaobin.socket.config.domain.SocketInConfigProperties;
-import net.zhaoxiaobin.socket.protocol.ProtocolDecoderHandler;
+import net.zhaoxiaobin.socket.protocol.TcpProtocolHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class SocketActionApplicationRunnerImpl implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         List<SocketChannelConfig> socketChannelConfigList = socketInConfigProperties.getSocketChannelConfigList();
         if (socketChannelConfigList == null || socketChannelConfigList.isEmpty()) {
-            logger.debug("没有配置socket交易接入,不起本地监听端口");
+            logger.info("没有配置socket交易接入,不起本地监听端口");
             return;
         }
         // 创建监听本地端口的线程池，固定大小等于接入渠道的监听端口总数
@@ -53,7 +53,7 @@ public class SocketActionApplicationRunnerImpl implements ApplicationRunner {
                             try {
                                 socket = serverSocket.accept();
                                 logger.info("==========本地端口:{},已连接1个客户端:{},开始处理socket交易==========", socketChannelConfig.getPort(), socket.getRemoteSocketAddress());
-                                Runnable socketHandler = new ProtocolDecoderHandler(socket, socketChannelConfig);
+                                Runnable socketHandler = new TcpProtocolHandler(socket, socketChannelConfig);
                                 // 交给线程池去执行
                                 socketExecutor.execute(socketHandler);
                             } catch (IOException e) {

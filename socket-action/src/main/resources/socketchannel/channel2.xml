@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<socket>
+    <channel>
+        <port>39394</port>
+        <beanName>socketServiceImpl2</beanName>
+        <readTimeout>10000</readTimeout>
+    </channel>
+</socket>

@@ -9,6 +9,6 @@ import java.net.Socket;
  * @author zhaoxb
  * @date 2021-05-05 8:30 下午
  */
-public interface IProtocolDecoderAdapter {
+public interface ITcpProtocolAdapter {
     byte[] decoder(Socket socket, SocketChannelConfig socketChannelConfig) throws IOException;
 }

@@ -13,8 +13,8 @@ import java.net.Socket;
  * @author zhaoxb
  * @date 2021-04-27 2:21 下午
  */
-public class ProtocolDecoderHandler implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(ProtocolDecoderHandler.class);
+public class TcpProtocolHandler implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(TcpProtocolHandler.class);
 
     /**
      * 客户端socket
@@ -26,7 +26,7 @@ public class ProtocolDecoderHandler implements Runnable {
      */
     private SocketChannelConfig socketChannelConfig;
 
-    public ProtocolDecoderHandler(Socket socket, SocketChannelConfig socketChannelConfig) {
+    public TcpProtocolHandler(Socket socket, SocketChannelConfig socketChannelConfig) {
         this.socket = socket;
         this.socketChannelConfig = socketChannelConfig;
     }
@@ -35,10 +35,10 @@ public class ProtocolDecoderHandler implements Runnable {
     public void run() {
         // 获取处理业务的bean
         String beanName = socketChannelConfig.getBeanName();
-        IProtocolDecoderAdapter protocolDecoderAdapter = SpringUtils.getBean(beanName, IProtocolDecoderAdapter.class);
+        ITcpProtocolAdapter tcpProtocolAdapter = SpringUtils.getBean(beanName, ITcpProtocolAdapter.class);
         try (Socket socket = this.socket) {
             // 处理业务
-            byte[] resultBytes = protocolDecoderAdapter.decoder(socket, socketChannelConfig);
+            byte[] resultBytes = tcpProtocolAdapter.decoder(socket, socketChannelConfig);
             // 返回
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(resultBytes);

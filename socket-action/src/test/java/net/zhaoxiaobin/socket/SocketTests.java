@@ -1,5 +1,6 @@
 package net.zhaoxiaobin.socket;
 
+import cn.hutool.core.date.DateUtil;
 import lombok.Cleanup;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 /**
  * @author zhaoxb
@@ -28,7 +30,7 @@ public class SocketTests {
         logger.info("=====已连接socket服务端=====");
         // 发送报文
         OutputStream outputStream = socket.getOutputStream();
-        String message = "时间:20210107153530000";
+        String message = "时间:" + DateUtil.format(new Date(), "yyyyMMddHHmmssSSS");
         logger.info("发送报文:{}", message);
         byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
         outputStream.write(bytes);
@@ -47,7 +49,7 @@ public class SocketTests {
         logger.info("=====已连接socket服务端=====");
         // 发送报文
         OutputStream outputStream = socket.getOutputStream();
-        String message = "时间:20210107153530000\n";
+        String message = "时间:" + DateUtil.format(new Date(), "yyyyMMddHHmmssSSS") + "\n";
         logger.info("发送报文:{}", message);
         byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
         outputStream.write(bytes);
@@ -65,7 +67,7 @@ public class SocketTests {
         logger.info("=====已连接socket服务端=====");
         // 发送报文
         OutputStream outputStream = socket.getOutputStream();
-        String message = "时间:20210107153530000";
+        String message = "时间:" + DateUtil.format(new Date(), "yyyyMMddHHmmssSSS");
         logger.info("发送报文:{}", message);
         byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
         String lenStr = StringUtils.leftPad(bytes.length + 4 + "", 4, '0');
@@ -84,7 +86,7 @@ public class SocketTests {
         logger.info("=====已连接socket服务端=====");
         // 发送报文
         OutputStream outputStream = socket.getOutputStream();
-        String message = "时间:20210107153530000";
+        String message = "时间:" + DateUtil.format(new Date(), "yyyyMMddHHmmssSSS");
         logger.info("发送报文:{}", message);
         byte[] bytes = message.getBytes(StandardCharsets.UTF_8);
         String lenStr = StringUtils.leftPad(bytes.length + "", 4, '0');

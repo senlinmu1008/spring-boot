@@ -1,7 +1,7 @@
 package net.zhaoxiaobin.socket.service.impl;
 
 import net.zhaoxiaobin.socket.config.domain.SocketChannelConfig;
-import net.zhaoxiaobin.socket.protocol.IProtocolDecoderAdapter;
+import net.zhaoxiaobin.socket.protocol.ITcpProtocolAdapter;
 import net.zhaoxiaobin.socket.utils.SocketUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +16,8 @@ import java.nio.charset.StandardCharsets;
  * @date 2021-05-05 8:37 下午
  */
 @Service
-public class ProtocolDecoderAdapterImpl4 implements IProtocolDecoderAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(ProtocolDecoderAdapterImpl4.class);
+public class SocketServiceImpl4 implements ITcpProtocolAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(SocketServiceImpl4.class);
 
     @Override
     public byte[] decoder(Socket socket, SocketChannelConfig socketChannelConfig) throws IOException {

@@ -8,12 +8,12 @@ spring:
 socket.in:
   socketChannelConfigList:
     - port: 29394
-      beanName: protocolDecoderAdapterImpl1
+      beanName: socketServiceImpl1
     - port: 39394
-      beanName: protocolDecoderAdapterImpl2
+      beanName: socketServiceImpl2
       readTimeout: 10000
     - port: 49394
-      beanName: protocolDecoderAdapterImpl3
+      beanName: socketServiceImpl3
       readTimeout: 15000
     - port: 59394
-      beanName: protocolDecoderAdapterImpl4
+      beanName: socketServiceImpl4
