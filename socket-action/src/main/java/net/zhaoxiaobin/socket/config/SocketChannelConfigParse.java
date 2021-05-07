@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENT;
+import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENCY;
 import static net.zhaoxiaobin.socket.utils.SocketUtils.DEFAULT_READ_TIMEOUT;
 
 /**
@@ -65,8 +65,8 @@ public class SocketChannelConfigParse implements InitializingBean {
                     socketChannelConfig.setReadTimeout(DEFAULT_READ_TIMEOUT);
                 }
                 if (socketChannelConfig.getMaxConcurrency() <= 0) {
-                    logger.warn("端口:{}渠道设置的最大并发数:{}不合理,重新设为:{}", socketChannelConfig.getPort(), socketChannelConfig.getMaxConcurrency(), MAX_CONCURRENT);
-                    socketChannelConfig.setMaxConcurrency(MAX_CONCURRENT);
+                    logger.warn("端口:{}渠道设置的最大并发数:{}不合理,重新设为:{}", socketChannelConfig.getPort(), socketChannelConfig.getMaxConcurrency(), MAX_CONCURRENCY);
+                    socketChannelConfig.setMaxConcurrency(MAX_CONCURRENCY);
                 }
             });
             this.socketChannelConfigList.addAll(socketChannelConfigList);

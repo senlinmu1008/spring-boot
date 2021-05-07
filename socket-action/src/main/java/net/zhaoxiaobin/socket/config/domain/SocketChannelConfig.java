@@ -1,6 +1,6 @@
 package net.zhaoxiaobin.socket.config.domain;
 
-import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENT;
+import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENCY;
 import static net.zhaoxiaobin.socket.utils.SocketUtils.DEFAULT_READ_TIMEOUT;
 
 /**
@@ -26,7 +26,7 @@ public class SocketChannelConfig {
     /**
      * 最大并发数
      */
-    private int maxConcurrency = MAX_CONCURRENT;
+    private int maxConcurrency = MAX_CONCURRENCY;
 
     public int getPort() {
         return port;

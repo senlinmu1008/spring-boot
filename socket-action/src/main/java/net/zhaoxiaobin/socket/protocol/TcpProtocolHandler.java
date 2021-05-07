@@ -51,7 +51,7 @@ public class TcpProtocolHandler implements Runnable {
             logger.error("处理socket交易异常", e);
             throw new RuntimeException("处理socket交易异常");
         } finally {
-            // 释放当前的交易计数
+            // 释放当前交易的计数
             MAX_CONCURRENCY_MAP.get(socketChannelConfig.getPort()).decrementAndGet();
         }
     }
