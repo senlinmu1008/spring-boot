@@ -20,8 +20,8 @@ public class SocketConfig {
     @Bean
     public Executor socketExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(20);
-        executor.setMaxPoolSize(50);
+        executor.setCorePoolSize(50);
+        executor.setMaxPoolSize(200);
         executor.setQueueCapacity(200);
         executor.setKeepAliveSeconds(60);
         executor.setThreadNamePrefix("socket-");

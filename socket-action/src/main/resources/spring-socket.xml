@@ -11,8 +11,8 @@
     </bean>
 
     <bean id="socketExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-        <property name="corePoolSize" value="20"/>
-        <property name="maxPoolSize" value="50"/>
+        <property name="corePoolSize" value="50"/>
+        <property name="maxPoolSize" value="200"/>
         <property name="queueCapacity" value="200"/>
         <property name="keepAliveSeconds" value="60"/>
         <property name="threadNamePrefix" value="socket-"/>
