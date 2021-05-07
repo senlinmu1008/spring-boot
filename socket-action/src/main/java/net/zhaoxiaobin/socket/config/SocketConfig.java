@@ -1,7 +1,6 @@
 package net.zhaoxiaobin.socket.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
@@ -11,7 +10,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author zhaoxb
  * @date 2021-04-27 2:04 下午
  */
-@Configuration
+//@Configuration
 public class SocketConfig {
     /**
      * 处理socket交易的线程池

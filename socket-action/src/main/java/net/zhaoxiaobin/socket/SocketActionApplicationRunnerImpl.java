@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -23,7 +22,7 @@ import java.util.concurrent.RejectedExecutionException;
  * @author zhaoxb
  * @date 2021-05-05 1:15 下午
  */
-@Component
+//@Component
 public class SocketActionApplicationRunnerImpl implements ApplicationRunner {
     private static final Logger logger = LoggerFactory.getLogger(SocketActionApplicationRunnerImpl.class);
 

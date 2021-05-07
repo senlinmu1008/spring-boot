@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -24,7 +25,7 @@ import java.util.concurrent.RejectedExecutionException;
  * @author zhaoxb
  * @date 2021-04-27 11:35 上午
  */
-//@Component
+@Component
 public class SocketServerListener implements ApplicationListener<ContextRefreshedEvent> {
     private static final Logger logger = LoggerFactory.getLogger(SocketServerListener.class);
 
