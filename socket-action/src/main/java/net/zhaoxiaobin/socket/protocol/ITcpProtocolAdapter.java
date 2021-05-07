@@ -10,5 +10,12 @@ import java.net.Socket;
  * @date 2021-05-05 8:30 下午
  */
 public interface ITcpProtocolAdapter {
+    /**
+     * socket接入解码器
+     * @param socket 客户端socket
+     * @param socketChannelConfig 当前渠道socket配置
+     * @return
+     * @throws IOException
+     */
     byte[] decoder(Socket socket, SocketChannelConfig socketChannelConfig) throws IOException;
 }
