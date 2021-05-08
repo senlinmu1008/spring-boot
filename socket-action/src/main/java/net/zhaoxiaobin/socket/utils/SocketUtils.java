@@ -76,6 +76,36 @@ public class SocketUtils {
             throw new RuntimeException("结束符需要为有效的十六进制字符");
         }
         byte[] endBytes = HexUtil.decodeHex(endHex);
+        return readUntilEOF(socket, endBytes, readTimeout);
+    }
+
+    /**
+     * 从socket输入流中读取字节数组直到读取到结尾字符
+     *
+     * @param socket   客户端socket
+     * @param endBytes 结尾字符字节数组
+     * @return
+     * @throws IOException
+     */
+    public static byte[] readUntilEOF(Socket socket, byte[] endBytes) throws IOException {
+        return readUntilEOF(socket, endBytes, DEFAULT_READ_TIMEOUT);
+    }
+
+    /**
+     * 从socket输入流中读取字节数组直到读取到结尾字符
+     *
+     * @param socket      客户端socket
+     * @param endBytes    结尾字符字节数组
+     * @param readTimeout 读取超时时间，单位：毫秒 默认5秒
+     * @return
+     * @throws IOException
+     */
+    public static byte[] readUntilEOF(Socket socket, byte[] endBytes, int readTimeout) throws IOException {
+        // 判断结束符的有效性
+        if (endBytes == null || endBytes.length == 0) {
+            logger.error("结束符:{}无效", Arrays.toString(endBytes));
+            throw new RuntimeException("结束符无效");
+        }
         // 开始读取数据，到结束符为止
         InputStream inputStream = socket.getInputStream();
         byte[] buffer = new byte[BUFFER_SIZE];
@@ -100,7 +130,7 @@ public class SocketUtils {
             }
             return Arrays.copyOfRange(allBytes, 0, allBytes.length - endBytes.length);
         } while ((System.currentTimeMillis() - startTime) < readTimeout);
-        logger.error("读取socket数据超时,未读取到结束符:{}", endHex);
+        logger.error("读取socket数据超时,未读取到结束符:{}", HexUtil.encodeHexStr(endBytes, false));
         throw new RuntimeException("读取socket数据超时");
     }
 

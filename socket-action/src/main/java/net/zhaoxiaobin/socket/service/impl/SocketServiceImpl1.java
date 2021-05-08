@@ -28,6 +28,8 @@ public class SocketServiceImpl1 implements ITcpProtocolAdapter {
 //        byte[] inBytes = SocketUtils.readUntilEOF(socket, "0A");
 //        // 还可以指定读取的超时时间
 //        byte[] inBytes = SocketUtils.readUntilEOF(socket, "0A", 5000);
+//        // 结束符以字节数组形式传入
+//        byte[] inBytes = SocketUtils.readUntilEOF(socket, "\n".getBytes());
 //
 //        // 方式三：读取固定长度的字节数，头部代表总长度的字节数，总长度是否包含头部字节数
 //        byte[] inBytes = SocketUtils.readFixedLen(socket, 4, true);

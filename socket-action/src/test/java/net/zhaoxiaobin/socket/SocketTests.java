@@ -47,7 +47,7 @@ public class SocketTests {
     @Test
     public void testReadUntilEOF() throws IOException {
         // 建立连接
-        @Cleanup Socket socket = new Socket("127.0.0.1", 39394);
+        @Cleanup Socket socket = new Socket("127.0.0.1", 29394);
         logger.info("=====已连接socket服务端=====");
         // 发送报文
         OutputStream outputStream = socket.getOutputStream();
@@ -65,7 +65,7 @@ public class SocketTests {
     @Test
     public void testReadFixedLen1() throws IOException {
         // 建立连接
-        @Cleanup Socket socket = new Socket("127.0.0.1", 49394);
+        @Cleanup Socket socket = new Socket("127.0.0.1", 29394);
         logger.info("=====已连接socket服务端=====");
         // 发送报文
         OutputStream outputStream = socket.getOutputStream();
@@ -84,7 +84,7 @@ public class SocketTests {
     @Test
     public void testReadFixedLen2() throws IOException {
         // 建立连接
-        @Cleanup Socket socket = new Socket("127.0.0.1", 59394);
+        @Cleanup Socket socket = new Socket("127.0.0.1", 29394);
         logger.info("=====已连接socket服务端=====");
         // 发送报文
         OutputStream outputStream = socket.getOutputStream();
