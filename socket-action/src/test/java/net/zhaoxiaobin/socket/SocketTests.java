@@ -105,7 +105,7 @@ public class SocketTests {
         System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "4");
         IntStream.range(Integer.MIN_VALUE, Integer.MAX_VALUE).parallel().forEach(i -> {
             try {
-                this.testReadUntilEOF();
+                this.testReadUntilClose();
             } catch (IOException e) {
                 logger.error("异常", e);
             }

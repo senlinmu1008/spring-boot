@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<socket>
+    <channel>
+        <!--    端口必填    -->
+        <port>29394</port>
+        <!--    beanName必填    -->
+        <beanName>socketServiceImpl1</beanName>
+        <!--    当前渠道的最大并发数、默认为100；选填，可以没有此标签，如果有该标签，值为空或值<=0会重设为默认值    -->
+        <maxConcurrency>20</maxConcurrency>
+    </channel>
+    <!--  可以配多个channel  -->
+<!--    <channel>-->
+<!--        <port>39394</port>-->
+<!--        <beanName>socketServiceImpl2</beanName>-->
+<!--    </channel>-->
+</socket>

@@ -42,7 +42,7 @@ public class TcpProtocolHandler implements Runnable {
             String beanName = socketChannelConfig.getBeanName();
             ITcpProtocolAdapter tcpProtocolAdapter = SpringUtils.getBean(beanName, ITcpProtocolAdapter.class);
             // 处理业务
-            byte[] resultBytes = tcpProtocolAdapter.decoder(socket, socketChannelConfig);
+            byte[] resultBytes = tcpProtocolAdapter.decoder(socket);
             // 返回
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(resultBytes);

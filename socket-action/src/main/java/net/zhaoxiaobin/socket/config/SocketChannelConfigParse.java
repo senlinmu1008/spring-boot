@@ -1,6 +1,5 @@
 package net.zhaoxiaobin.socket.config;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import net.zhaoxiaobin.socket.config.domain.SocketChannelConfig;
 import net.zhaoxiaobin.socket.config.domain.SocketInConfigProperties;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENCY;
-import static net.zhaoxiaobin.socket.utils.SocketUtils.DEFAULT_READ_TIMEOUT;
 
 /**
  * @author zhaoxb
@@ -45,7 +43,7 @@ public class SocketChannelConfigParse implements InitializingBean {
             }
             XmlMapper mapper = new XmlMapper();
             // 如果xml中有节点，但实体类中没有属性对应，不报错处理
-            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             List<SocketChannelConfig> socketChannelConfigList = mapper.readValue(xmlContent, SocketInConfigProperties.class).getSocketChannelConfigList();
             if (socketChannelConfigList == null) {
                 return;
@@ -59,10 +57,6 @@ public class SocketChannelConfigParse implements InitializingBean {
                 if (StringUtils.isBlank(socketChannelConfig.getBeanName())) {
                     logger.error("配置文件:{}接入渠道beanName没有配置", resource.getFilename());
                     throw new RuntimeException("配置文件:" + resource.getFilename() + "接入渠道beanName没有配置");
-                }
-                if (socketChannelConfig.getReadTimeout() < DEFAULT_READ_TIMEOUT) {
-                    logger.warn("端口:{}渠道设置的读取超时时间:{}不合理,重新设为:{}", socketChannelConfig.getPort(), socketChannelConfig.getReadTimeout(), DEFAULT_READ_TIMEOUT);
-                    socketChannelConfig.setReadTimeout(DEFAULT_READ_TIMEOUT);
                 }
                 if (socketChannelConfig.getMaxConcurrency() <= 0) {
                     logger.warn("端口:{}渠道设置的最大并发数:{}不合理,重新设为:{}", socketChannelConfig.getPort(), socketChannelConfig.getMaxConcurrency(), MAX_CONCURRENCY);

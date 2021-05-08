@@ -9,14 +9,4 @@ socket.in:
   socketChannelConfigList:
     - port: 29394
       beanName: socketServiceImpl1
-      maxConcurrency: 1
-    - port: 39394
-      beanName: socketServiceImpl2
-      readTimeout: 10000
-      maxConcurrency: 3
-    - port: 49394
-      beanName: socketServiceImpl3
-      readTimeout: 15000
-      maxConcurrency: 5
-    - port: 59394
-      beanName: socketServiceImpl4
+      maxConcurrency: 2

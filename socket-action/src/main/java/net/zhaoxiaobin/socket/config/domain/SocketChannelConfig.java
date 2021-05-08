@@ -1,7 +1,6 @@
 package net.zhaoxiaobin.socket.config.domain;
 
 import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENCY;
-import static net.zhaoxiaobin.socket.utils.SocketUtils.DEFAULT_READ_TIMEOUT;
 
 /**
  * @author zhaoxb
@@ -17,11 +16,6 @@ public class SocketChannelConfig {
      * 交易处理的实现类
      */
     private String beanName;
-
-    /**
-     * 读取数据的超时时间，默认5秒
-     */
-    private int readTimeout = DEFAULT_READ_TIMEOUT;
 
     /**
      * 最大并发数
@@ -42,14 +36,6 @@ public class SocketChannelConfig {
 
     public void setBeanName(String beanName) {
         this.beanName = beanName;
-    }
-
-    public int getReadTimeout() {
-        return readTimeout;
-    }
-
-    public void setReadTimeout(int readTimeout) {
-        this.readTimeout = readTimeout;
     }
 
     public int getMaxConcurrency() {
