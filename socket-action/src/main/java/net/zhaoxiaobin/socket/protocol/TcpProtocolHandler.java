@@ -35,8 +35,6 @@ public class TcpProtocolHandler implements Runnable {
 
     @Override
     public void run() {
-        // 接入计数+1
-        MAX_CONCURRENCY_MAP.get(socketChannelConfig.getPort()).incrementAndGet();
         try (Socket socket = this.socket) {
             // 获取处理业务的bean
             String beanName = socketChannelConfig.getBeanName();

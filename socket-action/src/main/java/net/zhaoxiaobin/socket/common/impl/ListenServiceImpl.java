@@ -62,6 +62,8 @@ public class ListenServiceImpl implements IListenService {
                             Runnable socketHandler = new TcpProtocolHandler(socket, socketChannelConfig);
                             // 交给线程池去执行
                             socketExecutor.execute(socketHandler);
+                            // 接入计数+1，无论是立即执行还是放入线程池的等待队列中，都计入并发数
+                            MAX_CONCURRENCY_MAP.get(socketChannelConfig.getPort()).incrementAndGet();
                         } catch (IOException e) {
                             logger.error("服务端socket:{}接收失败", socketChannelConfig.getPort(), e);
                         } catch (RejectedExecutionException e) {

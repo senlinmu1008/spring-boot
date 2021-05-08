@@ -100,7 +100,7 @@ public class SocketUtils {
             }
             return Arrays.copyOfRange(allBytes, 0, allBytes.length - endBytes.length);
         } while ((System.currentTimeMillis() - startTime) < readTimeout);
-        logger.error("读取socket数据超时,未读取到结束符:{}", endHex.toUpperCase());
+        logger.error("读取socket数据超时,未读取到结束符:{}", endHex);
         throw new RuntimeException("读取socket数据超时");
     }
 
