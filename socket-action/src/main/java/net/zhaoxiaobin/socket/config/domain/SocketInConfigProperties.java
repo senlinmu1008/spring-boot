@@ -5,8 +5,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -17,9 +15,9 @@ import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENCY;
  * @author zhaoxb
  * @date 2021-05-05 1:17 下午
  */
-@ConfigurationProperties(prefix = "socket.in")
 @JacksonXmlRootElement(localName = "socket")
-@Component
+//@ConfigurationProperties(prefix = "socket.in")
+//@Component
 public class SocketInConfigProperties {
     private static final Logger logger = LoggerFactory.getLogger(SocketInConfigProperties.class);
     /**
