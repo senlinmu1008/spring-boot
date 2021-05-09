@@ -1,11 +1,10 @@
 package net.zhaoxiaobin.socket.listener;
 
-import net.zhaoxiaobin.socket.config.SocketChannelConfigParse;
 import net.zhaoxiaobin.socket.common.IListenService;
+import net.zhaoxiaobin.socket.config.SocketChannelConfigParse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
 
 /**
  * 当spring容器将所有的bean都初始化完成后执行该类
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @author zhaoxb
  * @date 2021-04-27 11:35 上午
  */
-@Component
+//@Component
 public class SocketServerListener implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private SocketChannelConfigParse socketChannelConfigParse;

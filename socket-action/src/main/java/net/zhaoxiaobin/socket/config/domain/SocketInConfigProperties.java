@@ -1,10 +1,9 @@
 package net.zhaoxiaobin.socket.config.domain;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -15,16 +14,16 @@ import static net.zhaoxiaobin.socket.common.IListenService.MAX_CONCURRENCY;
  * @author zhaoxb
  * @date 2021-05-05 1:17 下午
  */
-@JacksonXmlRootElement(localName = "socket")
-//@ConfigurationProperties(prefix = "socket.in")
-//@Component
+//@JacksonXmlRootElement(localName = "socket")
+@ConfigurationProperties(prefix = "socket.in")
+@Component
 public class SocketInConfigProperties {
     private static final Logger logger = LoggerFactory.getLogger(SocketInConfigProperties.class);
     /**
      * 多个渠道的配置信息
      */
-    @JacksonXmlProperty(localName = "channel")
-    @JacksonXmlElementWrapper(useWrapping = false)
+//    @JacksonXmlProperty(localName = "channel")
+//    @JacksonXmlElementWrapper(useWrapping = false)
     private List<SocketChannelConfig> socketChannelConfigList;
 
     @PostConstruct

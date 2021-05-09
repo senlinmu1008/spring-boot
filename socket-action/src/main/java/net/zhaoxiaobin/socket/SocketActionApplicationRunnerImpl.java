@@ -1,16 +1,17 @@
 package net.zhaoxiaobin.socket;
 
-import net.zhaoxiaobin.socket.config.domain.SocketInConfigProperties;
 import net.zhaoxiaobin.socket.common.IListenService;
+import net.zhaoxiaobin.socket.config.domain.SocketInConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
 /**
  * @author zhaoxb
  * @date 2021-05-05 1:15 下午
  */
-//@Component
+@Component
 public class SocketActionApplicationRunnerImpl implements ApplicationRunner {
     @Autowired
     private SocketInConfigProperties socketInConfigProperties;
