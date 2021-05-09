@@ -1,5 +1,5 @@
 ## socket
-* [配置化实现多渠道socket统一接入tcp协议](../../tree/master/socket-action)
+* [socket接入统一配置化实现](../../tree/master/socket-action)
 
 ## 接口测试
 * [接口测试工具-Swagger应用](../../tree/master/swagger)

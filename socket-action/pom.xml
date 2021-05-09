@@ -12,10 +12,4 @@
     <version>1.0</version>
     <name>socket-action</name>
 
-    <dependencies>
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-        </dependency>
-    </dependencies>
 </project>
