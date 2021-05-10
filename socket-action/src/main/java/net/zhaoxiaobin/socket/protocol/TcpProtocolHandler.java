@@ -5,7 +5,6 @@ import net.zhaoxiaobin.socket.utils.SpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
@@ -45,7 +44,7 @@ public class TcpProtocolHandler implements Runnable {
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(resultBytes);
             outputStream.flush();
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("处理socket交易异常", e);
             throw new RuntimeException("处理socket交易异常");
         } finally {
