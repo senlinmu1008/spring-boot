@@ -30,6 +30,5 @@ public class TestCase {
     @Test
     @SneakyThrows
     public void test() {
-        BigDecimal bigDecimal = new BigDecimal("");
     }
 }
