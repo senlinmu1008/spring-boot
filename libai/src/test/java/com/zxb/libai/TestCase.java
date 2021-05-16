@@ -7,6 +7,8 @@ import com.zxb.libai.utils.SFTPUtil;
 import lombok.SneakyThrows;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 /**
  * @author zhaoxb
  * @create 2020-01-07 12:31
@@ -28,5 +30,6 @@ public class TestCase {
     @Test
     @SneakyThrows
     public void test() {
+        BigDecimal bigDecimal = new BigDecimal("");
     }
 }
