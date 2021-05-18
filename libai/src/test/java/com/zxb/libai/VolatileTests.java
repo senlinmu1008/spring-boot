@@ -26,4 +26,14 @@ public class VolatileTests {
         flag = false;
         t.join();
     }
+
+    /**
+     * 测试指令重排序
+     */
+    @Test
+    public void test2() {
+        for(int n = 1;;n++) {
+
+        }
+    }
 }
