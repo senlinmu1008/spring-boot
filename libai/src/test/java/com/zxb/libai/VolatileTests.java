@@ -16,6 +16,7 @@ public class VolatileTests {
     @Test
     public void test1() throws InterruptedException {
         Thread t = new Thread(() -> {
+            System.out.println("开始循环");
             while (flag) {
 
             }
