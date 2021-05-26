@@ -3,13 +3,13 @@
 <configuration>
     <!-- 指定别名方式一 -->
     <!--<typeAliases>-->
-    <!--<typeAlias type="com.zxb.mybatis.domain.bo.AuthClientServiceBO" alias="authClientServiceBO"/>-->
-    <!--<typeAlias type="com.zxb.mybatis.domain.bo.BaseUserBO" alias="baseUserBO"/>-->
+    <!--<typeAlias type="net.zhaoxiaobin.mybatis.domain.bo.AuthClientServiceBO" alias="authClientServiceBO"/>-->
+    <!--<typeAlias type="net.zhaoxiaobin.mybatis.domain.bo.BaseUserBO" alias="baseUserBO"/>-->
     <!--</typeAliases>-->
 
     <!-- 指定别名方式二，包内所有实体类类名首字母小写 -->
     <typeAliases>
-        <package name="com.zxb.mybatis.domain.bo"/>
+        <package name="net.zhaoxiaobin.mybatis.domain.bo"/>
     </typeAliases>
 
 </configuration>

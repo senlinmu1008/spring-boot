@@ -10,7 +10,7 @@
 
     <!-- 包内所有实体类类名首字母小写 -->
     <typeAliases>
-      <package name="com.zxb.task.domain"/>
+      <package name="net.zhaoxiaobin.task.domain"/>
     </typeAliases>
     
 </configuration>

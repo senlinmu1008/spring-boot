@@ -60,7 +60,7 @@
         </encoder>
     </appender>
     <!-- 单独对某个类或某个包下配置,additivity为false代表不继承root(root中则不再输出此日志)-->
-    <logger name="com.zxb.web.WarnController" level="warn" additivity="false">
+    <logger name="net.zhaoxiaobin.web.WarnController" level="warn" additivity="false">
         <appender-ref ref="WarnController"/>
     </logger>
 
