@@ -3,11 +3,12 @@
  */
 package net.zhaoxiaobin.task.config;
 
+import cn.hutool.core.net.NetUtil;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import net.zhaoxiaobin.task.dao.SpringScheduleCronDao;
 import net.zhaoxiaobin.task.domain.SpringScheduleCron;
 import net.zhaoxiaobin.task.service.ScheduleService;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +18,6 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.util.List;
 
 /**
@@ -79,8 +78,11 @@ public class ScheduledConfig implements SchedulingConfigurer {
             );
         }
         // 定时任务管理界面
-        InetAddress localHost = Inet4Address.getLocalHost();
-        String contextPath = "http://".concat(localHost.getHostAddress()).concat(":").concat(port);
+        String contextPath = "http://".concat(NetUtil.getLocalhostStr()).concat(":").concat(port);
         log.info("定时任务管理页面：{}", contextPath.concat("/scheduleManagement/taskList"));
+
+//        // 设置调度定时任务的线程池大小，防止因为调度缓慢导致别的定时任务不能及时启动（不会落但会延迟！！！）
+//        // 最好通过new ThreadPoolExecutor方式创建而不是Executors方式
+//        taskRegistrar.setScheduler(Executors.newScheduledThreadPool(2));
     }
 }

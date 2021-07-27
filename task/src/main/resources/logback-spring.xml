@@ -2,7 +2,7 @@
 <configuration>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>info</level>
+            <level>DEBUG</level>
         </filter>
         <encoder>
             <charset>UTF-8</charset>
@@ -10,7 +10,11 @@
         </encoder>
     </appender>
 
-    <root level="debug">
+    <logger name="net.zhaoxiaobin.task.service.ScheduleService" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="INFO">
         <appender-ref ref="CONSOLE"/>
     </root>
 

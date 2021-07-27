@@ -3,10 +3,13 @@
  */
 package net.zhaoxiaobin.task;
 
+import cn.hutool.core.net.NetUtil;
+import cn.hutool.system.SystemUtil;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.quartz.CronExpression;
 
+import java.net.Inet4Address;
 import java.util.Date;
 
 /**
@@ -16,9 +19,11 @@ import java.util.Date;
  */
 public class TestCase {
     @Test
+    @SneakyThrows
     public void testCron() {
-        String cron = "*/5 * * * * ?";
-        System.out.println(CronExpression.isValidExpression(cron));
+        System.out.println(NetUtil.getLocalhostStr());
+        System.out.println(SystemUtil.getHostInfo().getAddress());
+        System.out.println(Inet4Address.getLocalHost().getHostAddress());
     }
 
     @Test

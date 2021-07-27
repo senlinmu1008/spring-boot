@@ -43,12 +43,8 @@ public class SpringScheduleCron implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         SpringScheduleCron that = (SpringScheduleCron) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(beanName, that.beanName) &&
