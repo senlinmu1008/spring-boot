@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
@@ -23,7 +22,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @author zhaoxb
  * @create 2020-05-06 22:07
  */
-@Configuration
+//@Configuration
 public class RedisConfig {
 
     @Bean
