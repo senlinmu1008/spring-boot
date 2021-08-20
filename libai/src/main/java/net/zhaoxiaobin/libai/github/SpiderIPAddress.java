@@ -33,7 +33,10 @@ public class SpiderIPAddress {
 
     public static void main(String[] args) {
         for (String address : ADDRESS) {
-            List<String> ipList = getIPAddress(address);
+            List<String> ipList;
+            do {
+                ipList = getIPAddress(address);
+            } while (ipList.isEmpty());
             for (String ip : ipList) {
                 System.out.println(ip + " " + address);
             }
@@ -43,12 +46,13 @@ public class SpiderIPAddress {
     private static List<String> getIPAddress(String address) {
         HttpResponse response = HttpRequest.post(URL).form("host", address).timeout(60000).execute();
         // 先找列表
-        List<String> ipList = ReUtil.findAllGroup1(FORM_REGEX, response.toString());
+        String responseBody = response.body();
+        List<String> ipList = ReUtil. findAllGroup1(FORM_REGEX, responseBody);
         if (ipList != null && !ipList.isEmpty()) {
             return ipList;
         }
         // 找单个
-        List<String> singleIp = ReUtil.findAllGroup1(LOOKUP_REGEX, response.toString());
+        List<String> singleIp = ReUtil.findAllGroup1(LOOKUP_REGEX, responseBody);
         return singleIp;
     }
 }
