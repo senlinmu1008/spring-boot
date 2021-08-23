@@ -42,20 +42,21 @@ public class ListenServiceImpl implements IListenService {
         ExecutorService listenThreadPool = Executors.newFixedThreadPool(socketChannelConfigList.size());
         socketChannelConfigList.forEach(socketChannelConfig -> {
             // 初始化每个渠道的并发数，起始为0
-            MAX_CONCURRENCY_MAP.put(socketChannelConfig.getPort(), new AtomicInteger());
+            int localPort = socketChannelConfig.getPort();
+            MAX_CONCURRENCY_MAP.put(localPort, new AtomicInteger());
             listenThreadPool.execute(new Thread(() -> {
-                logger.info("==========服务端socket进入监听,端口号:{}==========", socketChannelConfig.getPort());
-                try (ServerSocket serverSocket = new ServerSocket(socketChannelConfig.getPort())) {
+                logger.info("==========服务端socket进入监听,端口号:{}==========", localPort);
+                try (ServerSocket serverSocket = new ServerSocket(localPort)) {
                     while (!Thread.currentThread().isInterrupted()) {
                         Socket socket = null;
                         try {
                             socket = serverSocket.accept();
-                            logger.info("==========本地端口:{},已连接1个客户端:{},开始处理socket交易==========", socketChannelConfig.getPort(), socket.getRemoteSocketAddress());
+                            logger.info("==========本地端口:{},已连接1个客户端:{},开始处理socket交易==========", localPort, socket.getRemoteSocketAddress());
                             // 限制最大并发数
-                            int currentConcurrency = MAX_CONCURRENCY_MAP.get(socketChannelConfig.getPort()).get();
+                            int currentConcurrency = MAX_CONCURRENCY_MAP.get(localPort).get();
                             // 如果已经达到最大并发数，关闭客户端socket，继续进入监听状态
                             if (currentConcurrency >= socketChannelConfig.getMaxConcurrency()) {
-                                logger.warn("端口:{}渠道已达最大并发数:{}", socketChannelConfig.getPort(), socketChannelConfig.getMaxConcurrency());
+                                logger.warn("端口:{}渠道已达最大并发数:{}", localPort, socketChannelConfig.getMaxConcurrency());
                                 socket.close();
                                 continue;
                             }
@@ -63,16 +64,16 @@ public class ListenServiceImpl implements IListenService {
                             // 交给线程池去执行
                             socketExecutor.execute(socketHandler);
                             // 接入计数+1，无论是立即执行还是放入线程池的等待队列中，都计入并发数
-                            MAX_CONCURRENCY_MAP.get(socketChannelConfig.getPort()).incrementAndGet();
+                            MAX_CONCURRENCY_MAP.get(localPort).incrementAndGet();
                         } catch (IOException e) {
-                            logger.error("服务端socket:{}接收失败", socketChannelConfig.getPort(), e);
+                            logger.error("服务端socket:{}接收失败", localPort, e);
                         } catch (RejectedExecutionException e) {
-                            logger.error("线程池处理已达上限,拒绝当前socket:{}交易", socketChannelConfig.getPort(), e);
+                            logger.error("线程池处理已达上限,拒绝当前socket:{}交易", localPort, e);
                             socket.close();
                         }
                     }
                 } catch (IOException e) {
-                    logger.error("服务端socket:{}异常", socketChannelConfig.getPort(), e);
+                    logger.error("服务端socket:{}异常", localPort, e);
                 }
             }));
         });

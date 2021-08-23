@@ -40,6 +40,14 @@ public class TcpProtocolHandler implements Runnable {
             ITcpProtocolAdapter tcpProtocolAdapter = SpringUtils.getBean(beanName, ITcpProtocolAdapter.class);
             // 处理业务
             byte[] resultBytes = tcpProtocolAdapter.decoder(socket);
+            if (resultBytes == null || resultBytes.length <= 0) {
+                logger.warn("socket本地端口:{}无任何响应数据返回给客户端", socketChannelConfig.getPort());
+                return;
+            }
+            if (socket.isClosed()) {
+                logger.error("socket不能在bean:{}中关闭", beanName);
+                throw new RuntimeException("socket已关闭,不能将响应数据返回给客户端");
+            }
             // 返回
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(resultBytes);
