@@ -3,7 +3,6 @@ package net.zhaoxiaobin.task.strategy;
 import cn.hutool.core.net.NetUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.zhaoxiaobin.task.domain.SpringScheduleCron;
-import net.zhaoxiaobin.task.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,6 +10,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +26,27 @@ public class DistributedSchedulingImpl implements TaskSchedulingStrategy {
     @Autowired
     private Environment environment;
 
+    @Autowired(required = false)
+    private ZSetOperations zSetOperations;
+
+    @Autowired(required = false)
+    private ValueOperations stringOperations;
+
+    @Autowired(required = false)
+    private RedisTemplate redisTemplate;
+
+    /**
+     * 当前服务实例的唯一标识
+     */
+    private String currentInstanceId;
+
+    @PostConstruct
+    private void init() {
+        // ip:port作为微服务实例的唯一标志
+        currentInstanceId = NetUtil.getLocalhostStr() + ":" + environment.getProperty("server.port");
+        log.info("当前服务实例Id:{}", currentInstanceId);
+    }
+
     /**
      * 使用redis实现分布式调度，zset排行榜 + 分布式锁
      *
@@ -34,16 +55,11 @@ public class DistributedSchedulingImpl implements TaskSchedulingStrategy {
      */
     @Override
     public boolean currentCanExecute(SpringScheduleCron springScheduleCron) {
-        // ip:port作为微服务实例的唯一标志
-        String currentInstanceId = NetUtil.getLocalhostStr() + ":" + environment.getProperty("server.port");
         String taskId = springScheduleCron.getId().toString();
-        // 获取操作redis的bean，如果采用注入bean方式在没有redis配置情况下会报错
-        ZSetOperations<String, Object> zSetOperations = SpringUtils.getBean(ZSetOperations.class);
-        ValueOperations<String, String> stringOperations = SpringUtils.getBean("stringOperations", ValueOperations.class);
-        RedisTemplate<String, Object> redisTemplate = SpringUtils.getBean("redisTemplate", RedisTemplate.class);
         // 定义redis中插入的key，加上有含义的前缀防止冲突
         String zsetKey = "schedule_rank_" + taskId; // 各个任务的排行榜key
         String lockKey = "schedule_lock_" + taskId; // 各个任务的分布式锁key
+        // TODO 分布式锁的key粒度细化到每个任务具体的执行时间点，防止因为共用key互斥不同执行周期的任务执行（周期短的情况）
         String impeachKeyPrefix = "schedule_impeach_" + taskId + "_"; // 各个任务检举key前缀
         try {
             // 查询该任务执行的排行榜
@@ -65,7 +81,7 @@ public class DistributedSchedulingImpl implements TaskSchedulingStrategy {
                 }
                 // 取最早执行的服务实例包含执行时间
                 Set<ZSetOperations.TypedTuple<Object>> earliestTuple = zSetOperations.rangeWithScores(zsetKey, 0, 0);
-                // 如果当前有分布式锁，说明当前周期内已经执行过了，且排行榜可能更新过了，也不再进行检举和剔除服务
+                // 如果当前有分布式锁，说明当前周期内已经执行过了，榜首不是本次周期的执行者，不进行检举和剔除服务
                 if (redisTemplate.hasKey(lockKey)) {
                     return false;
                 }

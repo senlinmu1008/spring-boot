@@ -16,17 +16,17 @@ spring:
     maxActive: 10
     minIdle: 0
     maxWait: 60000
-#  redis:
-#    cluster:
-#      nodes:
-#        - 148.70.153.63:9426
-#        - 148.70.153.63:9427
-#        - 148.70.153.63:9428
-#        - 148.70.153.63:9429
-#        - 148.70.153.63:9430
-#        - 148.70.153.63:9431
-#    password: password
-#    timeout: 60000
+  redis:
+    cluster:
+      nodes:
+        - 148.70.153.63:9426
+        - 148.70.153.63:9427
+        - 148.70.153.63:9428
+        - 148.70.153.63:9429
+        - 148.70.153.63:9430
+        - 148.70.153.63:9431
+    password: password
+    timeout: 60000
 
 mybatis:
   config-location: classpath:mybatis-config.xml
