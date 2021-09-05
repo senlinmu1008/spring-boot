@@ -5,7 +5,6 @@ package net.zhaoxiaobin.task.service;
 
 import net.zhaoxiaobin.task.dao.SpringScheduleCronDao;
 import net.zhaoxiaobin.task.domain.SpringScheduleCron;
-import net.zhaoxiaobin.task.strategy.TaskSchedulingStrategy;
 import net.zhaoxiaobin.task.utils.SpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +36,12 @@ public interface ScheduleService extends Runnable {
             log.debug("=====[{}]不可用=====", beanName);
             return;
         }
-//        execute(); // 直接执行
+        execute(); // 直接执行
 
-        // 根据调度策略决定任务是否执行
-        TaskSchedulingStrategy taskSchedulingStrategy = SpringUtils.getBean("distributedSchedulingImpl", TaskSchedulingStrategy.class);
-        if (taskSchedulingStrategy.currentCanExecute(springScheduleCron)) {
-            execute();
-        }
+//        // 根据调度策略决定任务是否执行
+//        TaskSchedulingStrategy taskSchedulingStrategy = SpringUtils.getBean("distributedSchedulingImpl", TaskSchedulingStrategy.class);
+//        if (taskSchedulingStrategy.currentCanExecute(springScheduleCron)) {
+//            execute();
+//        }
     }
 }
