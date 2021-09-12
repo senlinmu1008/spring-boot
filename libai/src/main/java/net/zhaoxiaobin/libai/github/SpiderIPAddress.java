@@ -25,6 +25,7 @@ public class SpiderIPAddress {
             "avatars2.githubusercontent.com",
             "avatars3.githubusercontent.com",
             "camo.githubusercontent.com",
+            "stackoverflow.com",
     };
 
     public static final String LOOKUP_REGEX = "<h1>IP Lookup : (.*?) \\(";
