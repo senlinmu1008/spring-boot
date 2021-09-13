@@ -15,12 +15,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * wait-notify（等待-通知）实现异步通知
  * @author zhaoxb
  * @date 2021-09-13 下午5:38
  */
 @RestController
 @Slf4j
-public class AsyncNoticeController {
+public class WaitNotifyAsyncNoticeController {
     /**
      * 查询结果map，key-查询流水号、value-查询结果
      */
