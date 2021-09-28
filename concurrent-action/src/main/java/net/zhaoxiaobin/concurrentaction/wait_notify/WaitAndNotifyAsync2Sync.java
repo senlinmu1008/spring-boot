@@ -17,7 +17,7 @@ public class WaitAndNotifyAsync2Sync {
     /**
      * 查询结果map，key-查询流水号、value-查询结果
      */
-    private Map<String, String> queryResultMap = new ConcurrentHashMap<>();
+    private static Map<String, String> queryResultMap = new ConcurrentHashMap<>();
 
     /**
      * 查询异步返回的结果，这里包含异步转同步的过程

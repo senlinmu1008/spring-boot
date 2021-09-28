@@ -11,16 +11,16 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 异步转同步类
- * 采用lock + condition + sign实现
+ * 采用lock + condition + signal实现
  *
  * @author zhaoxb
  * @date 2021-09-26 下午5:21
  */
-public class LockConditionSignAsync2Sync {
+public class LockConditionSignalAsync2Sync {
     /**
      * 查询结果map，key-查询流水号、value-查询结果
      */
-    private Map<String, String> queryResultMap = new ConcurrentHashMap<>();
+    private static Map<String, String> queryResultMap = new ConcurrentHashMap<>();
 
     /**
      * 可重入锁

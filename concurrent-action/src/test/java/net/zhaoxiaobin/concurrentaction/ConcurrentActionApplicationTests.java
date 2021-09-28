@@ -10,5 +10,6 @@ public class ConcurrentActionApplicationTests {
     @Test
     @SneakyThrows
     public void test() {
+
     }
 }

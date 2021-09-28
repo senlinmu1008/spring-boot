@@ -1,4 +1,4 @@
-package net.zhaoxiaobin.concurrentaction.lock_condition;
+package net.zhaoxiaobin.concurrentaction.locksupport;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.thread.ThreadUtil;
@@ -16,18 +16,18 @@ import java.util.Date;
 import java.util.stream.IntStream;
 
 /**
- * lock + condition + sign实现等待-通知
+ * LockSupport实现等待-通知
  *
  * @author zhaoxb
- * @date 2021-09-16 下午23:00
+ * @date 2021-09-28 下午12:26
  */
 @RestController
 @Slf4j
-public class LockConditionSignController {
+public class LockSupportController {
     /**
      * 异步转同步对象
      */
-    private LockConditionSignAsync2Sync async2Sync = new LockConditionSignAsync2Sync();
+    LockSupportAsync2Sync async2Sync = new LockSupportAsync2Sync();
 
     /**
      * 请求url地址，这里为了模拟，客户端和服务端其实是同一个
@@ -39,14 +39,13 @@ public class LockConditionSignController {
      * 同步查询结果，最后将查询结果同步返回
      *
      * @return
-     * @throws InterruptedException
      */
-    @PostMapping("/syncQueryData2")
-    public String syncQueryData2() {
+    @PostMapping("/syncQueryData3")
+    public String syncQueryData3() {
         String seq = RandomUtil.randomNumbers(10);
         log.info("客户端生成查询流水号:{}", seq);
         // 发送查询请求
-        HttpRequest.post(baseUrl + "asyncQueryData2")
+        HttpRequest.post(baseUrl + "asyncQueryData3")
                 .contentType(ContentType.TEXT_PLAIN.toString())
                 .body(seq).execute();
         return async2Sync.getAsyncResult(seq);
@@ -58,13 +57,12 @@ public class LockConditionSignController {
      *
      * @param result 响应结果
      */
-    @PostMapping("/asyncNotice2")
-    public void asyncNotice2(@RequestBody String result) {
+    @PostMapping("/asyncNotice3")
+    public void asyncNotice3(@RequestBody String result) {
         log.info("客户端接收异步响应结果:{}", result);
         String seq = result.substring(0, 10);
         async2Sync.putAsyncResult(seq, result);
     }
-
 
     /**
      * =============服务端=============
@@ -72,21 +70,22 @@ public class LockConditionSignController {
      *
      * @param seq 查询流水号
      */
-    @PostMapping("/asyncQueryData2")
-    public void asyncQueryData2(@RequestBody String seq) {
+    @PostMapping("/asyncQueryData3")
+    public void asyncQueryData3(@RequestBody String seq) {
         log.info("服务端接收查询流水号:{}", seq);
         ThreadUtil.sleep(100); // 模拟服务端查询耗时
         String now = DateUtil.format(new Date(), "yyyyMMddHHmmssSSS");
-        new Thread(() -> HttpRequest.post(baseUrl + "asyncNotice2")
+        new Thread(() -> HttpRequest.post(baseUrl + "asyncNotice3")
                 .contentType(ContentType.TEXT_PLAIN.toString())
                 .body(seq + ":" + now).execute()).start();
     }
+
 
     @Test
     public void test() {
         long start = System.currentTimeMillis();
         IntStream.range(0, 1000).parallel().forEach(i -> {
-            HttpResponse httpResponse = HttpRequest.post("http://127.0.0.1:11400/syncQueryData2")
+            HttpResponse httpResponse = HttpRequest.post("http://127.0.0.1:11400/syncQueryData3")
                     .contentType(ContentType.TEXT_PLAIN.toString())
                     .execute();
             if (!httpResponse.isOk()) {
@@ -94,6 +93,6 @@ public class LockConditionSignController {
             }
         });
         long end = System.currentTimeMillis();
-        log.info("调用1000次耗时:{}", end - start); // 10549,10305
+        log.info("调用1000次耗时:{}", end - start); // 10358,10285
     }
 }
