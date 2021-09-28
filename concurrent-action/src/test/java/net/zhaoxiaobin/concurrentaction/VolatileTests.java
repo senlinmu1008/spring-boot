@@ -1,4 +1,4 @@
-package net.zhaoxiaobin.libai;
+package net.zhaoxiaobin.concurrentaction;
 
 import cn.hutool.core.thread.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
