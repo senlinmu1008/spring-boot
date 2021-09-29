@@ -34,8 +34,8 @@ public class VolatileTests {
     /**
      * 测试指令重排序
      */
-//    private int x, y, a, b;
-    private volatile int x, y, a, b;
+    private int x, y, a, b;
+//    private volatile int x, y, a, b;
     @Test
     public void test2() throws InterruptedException {
         for(int n = 1;;n++) {
@@ -64,7 +64,7 @@ public class VolatileTests {
             如果出现 x = 0 && y = 0这种情况，则可以反证一定出现了重排序
              */
             if (x == 0 && y == 0) {
-                log.info("第{}次出现了x = 0、Y = 0的情况", n);
+                log.info("第{}次出现了x = 0、y = 0的情况", n);
                 break;
             }
         }
