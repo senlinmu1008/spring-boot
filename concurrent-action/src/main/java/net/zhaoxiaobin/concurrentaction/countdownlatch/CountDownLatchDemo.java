@@ -7,6 +7,8 @@ import org.junit.Test;
 import java.util.concurrent.CountDownLatch;
 
 /**
+ * CountDownLatch主要用来解决一个线程等待多个线程的场景
+ *
  * @author zhaoxb
  * @date 2021-10-11 下午6:54
  */
