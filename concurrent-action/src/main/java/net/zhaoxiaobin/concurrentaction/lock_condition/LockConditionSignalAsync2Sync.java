@@ -50,7 +50,7 @@ public class LockConditionSignalAsync2Sync {
                 backed.await(10, TimeUnit.SECONDS); // 超时10秒结束等待
             }
         } finally {
-            lock.unlock();
+            lock.unlock(); // happen-before lock()
         }
         // 同步返回结果
         return queryResultMap.remove(seq);

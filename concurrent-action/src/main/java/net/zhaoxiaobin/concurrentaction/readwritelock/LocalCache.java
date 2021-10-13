@@ -50,7 +50,7 @@ public class LocalCache {
         try {
             return cacheMap.get(key);
         } finally {
-            readLock.unlock();
+            readLock.unlock(); // happen-before lock()
         }
     }
 
@@ -65,7 +65,7 @@ public class LocalCache {
         try {
             cacheMap.put(key, value);
         } finally {
-            writeLock.unlock();
+            writeLock.unlock(); // happen-before lock()
         }
     }
 }

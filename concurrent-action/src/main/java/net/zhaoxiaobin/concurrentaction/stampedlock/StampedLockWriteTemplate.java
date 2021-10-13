@@ -16,7 +16,7 @@ public class StampedLockWriteTemplate {
             // 写共享变量
             // ......
         } finally {
-            sl.unlockWrite(stamp);
+            sl.unlockWrite(stamp); // happen-before writeLock()和readLock()
         }
     }
 }

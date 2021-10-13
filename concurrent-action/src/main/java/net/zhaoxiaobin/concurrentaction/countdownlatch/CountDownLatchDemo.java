@@ -30,6 +30,12 @@ public class CountDownLatchDemo {
             latch.countDown();
         }).start();
         // 进入等待，等上面2个线程执行完才解除阻塞
+        /**
+         * await()函数中有读volatil变量
+         * countDown()函数有写volatile变量
+         * 所以根据happens-before原则，countDown()对await()可见
+         * 根据其传递性原则，在countDown()之前的操作也对await()之后的操作可见
+         */
         latch.await();
         log.info("全部执行完毕");
     }

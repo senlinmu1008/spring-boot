@@ -29,7 +29,7 @@ public class CyclicBarrierDemo {
                 ThreadUtil.sleep(2000L);
                 log.info("执行线程T1结束");
                 try {
-                    cyclicBarrier.await();
+                    cyclicBarrier.await(); // happen-before another await()
                 } catch (Exception e) {
                     log.error("异常", e);
                 }
@@ -41,7 +41,7 @@ public class CyclicBarrierDemo {
                 ThreadUtil.sleep(3000L);
                 log.info("执行线程T2结束");
                 try {
-                    cyclicBarrier.await();
+                    cyclicBarrier.await(); // happen-before another await()
                 } catch (Exception e) {
                     log.error("异常", e);
                 }
