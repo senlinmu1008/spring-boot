@@ -44,7 +44,7 @@ public class ListenServiceImpl implements IListenService {
             // 初始化每个渠道的并发数，起始为0
             int localPort = socketChannelConfig.getPort();
             MAX_CONCURRENCY_MAP.put(localPort, new AtomicInteger());
-            listenThreadPool.execute(new Thread(() -> {
+            listenThreadPool.execute(() -> {
                 logger.info("==========服务端socket进入监听,端口号:{}==========", localPort);
                 try (ServerSocket serverSocket = new ServerSocket(localPort)) {
                     while (!Thread.currentThread().isInterrupted()) {
@@ -75,7 +75,7 @@ public class ListenServiceImpl implements IListenService {
                 } catch (IOException e) {
                     logger.error("服务端socket:{}异常", localPort, e);
                 }
-            }));
+            });
         });
     }
 }
