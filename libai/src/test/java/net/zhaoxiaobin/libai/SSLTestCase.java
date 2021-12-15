@@ -23,10 +23,10 @@ import java.security.KeyStore;
  * ### =======客户端jre中导入服务端证书========
  * cd $JAVA_HOME/jre/lib/security
  * # 查看证书
- * keytool -list -keystore cacerts -storepass changeit|grep ccb
+ * keytool -list -keystore cacerts -storepass changeit|grep ccc
  * <p>
  * # 删除证书
- * keytool -delete -alias ccb -keystore cacerts -storepass changeit
+ * keytool -delete -alias ccc -keystore cacerts -storepass changeit
  *
  * @author zhaoxb
  * @date 2021/01/05 10:19 上午
@@ -40,8 +40,8 @@ public class SSLTestCase {
      * 客户端p12证书密码
      */
     private String pfxPasswd = "123456";
-    private String url = "https://hexp.p5.ccb.com:21000/p5-http-in/filetransfer/P54211001-2001";
-//    private String url = "https://hexp.p5.ccb.com:21000/senddata";
+    private String url = "https://hexp.p5.ccc.com:21000/p5-http-in/filetransfer/P54211001-2001";
+//    private String url = "https://hexp.p5.ccc.com:21000/senddata";
 
     /**
      * 需要提前在jdk中把服务端公钥证书导入且url中需要指定域名（此方法不适用于指定Host头）

@@ -43,7 +43,7 @@ public class SSLTestCase2 {
      */
     private String trustStorePwd = "654321";
 
-    private String url = "https://c.p5.ccb.com:21000/p5-http-in/filetransfer/P54211001-2001";
+    private String url = "https://c.p5.ccc.com:21000/p5-http-in/filetransfer/P54211001-2001";
 //    private String url = "https://139.9.127.172:21000/p5-http-in/filetransfer/P54211001-2001";
 
     /**
@@ -88,7 +88,7 @@ public class SSLTestCase2 {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setConfig(requestConfig);
 //            httpPost.addHeader("Connection", "keep-alive"); // 设置一些header等
-//            httpPost.addHeader("Host", "c.p5.ccb.com");
+//            httpPost.addHeader("Host", "c.p5.ccc.com");
             String requestBody = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                     "<name>\n" +
                     "    <FILE_NUM>10</FILE_NUM>\n" +
