@@ -1,8 +1,8 @@
 package net.zhaoxiaobin.libai.github;
 
 import cn.hutool.core.util.ReUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class SpiderIPAddress {
 
     public static final String LOOKUP_REGEX = "<h1>IP Lookup : (.*?) \\(";
 
-    public static final String FORM_REGEX = "type=\"radio\" value=\"(.*?)\">";
+    public static final String FORM_REGEX = "type=\"radio\" value=\"(.*?)\"/>";
 
     public static void main(String[] args) {
         for (String address : ADDRESS) {
@@ -45,7 +45,8 @@ public class SpiderIPAddress {
     }
 
     private static List<String> getIPAddress(String address) {
-        HttpResponse response = HttpRequest.post(URL).form("host", address).timeout(60000).execute();
+//        HttpResponse response = HttpRequest.post(URL).form("host", address).timeout(60000).execute();
+        HttpResponse response = HttpRequest.post(URL).form("host", address).timeout(60000).send();
         // 先找列表
         String responseBody = response.body();
         List<String> ipList = ReUtil. findAllGroup1(FORM_REGEX, responseBody);
