@@ -39,14 +39,14 @@ public class SocketChannelConfigParse implements InitializingBean {
         for (Resource resource : configurations) {
             String xmlContent = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
             if (StringUtils.isBlank(xmlContent)) {
-                return;
+                continue;
             }
             XmlMapper mapper = new XmlMapper();
             // 如果xml中有节点，但实体类中没有属性对应，不报错处理
 //            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             List<SocketChannelConfig> socketChannelConfigList = mapper.readValue(xmlContent, SocketInConfigProperties.class).getSocketChannelConfigList();
             if (socketChannelConfigList == null) {
-                return;
+                continue;
             }
             // 校验必填字段
             socketChannelConfigList.forEach(socketChannelConfig -> {
