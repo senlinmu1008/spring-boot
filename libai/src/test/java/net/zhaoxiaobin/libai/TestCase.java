@@ -6,8 +6,6 @@ package net.zhaoxiaobin.libai;
 import net.zhaoxiaobin.libai.utils.SFTPUtil;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-
 /**
  * @author zhaoxb
  * @create 2020-01-07 12:31
