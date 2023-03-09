@@ -75,7 +75,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.7.7</version>
+            <version>5.8.12</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -100,7 +100,7 @@
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.15</version>
+            <version>1.4.20</version>
         </dependency>
         <!-- 请求报文字段映射转换 -->
         <dependency>
