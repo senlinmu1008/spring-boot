@@ -22,6 +22,7 @@
         <module>task</module>
         <module>socket-action</module>
         <module>concurrent-action</module>
+        <module>https-action</module>
     </modules>
 
     <parent>
