@@ -59,7 +59,7 @@ public class HttpsClientMutualAuth2Controller {
         // 2.初始化ssl
         SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
 
-        // 双向认证这里trustManagers为空则使用JDK默认的cacerts信任库
+        // trustManagers为空则使用JDK默认的cacerts信任库
         sslContext.init(keyManagerFactory.getKeyManagers(), null, new SecureRandom());
         SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext);
         // 3.发送https请求
@@ -108,7 +108,7 @@ public class HttpsClientMutualAuth2Controller {
         keyManagerFactory.init(keyStore, p12Pwd.toCharArray());
         // 2.初始化ssl
         SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-        // 双向认证这里trustManagers为空则使用JDK默认的cacerts信任库
+        // trustManagers为空则使用JDK默认的cacerts信任库
         sslContext.init(keyManagerFactory.getKeyManagers(), null, new SecureRandom());
         SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
         // 3.发送https请求
