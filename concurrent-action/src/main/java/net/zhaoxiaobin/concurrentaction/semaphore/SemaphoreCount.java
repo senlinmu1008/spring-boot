@@ -21,7 +21,7 @@ public class SemaphoreCount {
 
     @SneakyThrows
     public void addOne() {
-        // 不能放入finally中，防止acquire失败，多释放一次计数从而导致多个线程进入临界区
+        // 不能放入try中，防止acquire失败，多释放一次计数从而导致多个线程进入临界区
         // 这里的acquire()并非上锁，不会有互斥效果
         semaphore.acquire(); // 如果没有许可证，进入阻塞状态（如果有锁并不释放锁）
         try {
