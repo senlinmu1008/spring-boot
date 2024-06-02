@@ -102,13 +102,11 @@ public class PdfServiceImpl implements PdfService {
         // 生成pdf
         try {
             XMLWorkerHelper.getInstance().parseXHtml(writer, document, new ByteArrayInputStream(html.getBytes("UTF-8")), null, Charset.forName("UTF-8"), asianFontProvider);
-
             // 如果系统已经装有simsun.ttc字体，则不需要单独设置字体也不需要itext-asian jar包
-//            XMLWorkerHelper.getInstance().parseXHtml(writer, document, new ByteArrayInputStream(html.getBytes("UTF-8")), null, Charset.forName("UTF-8"));
+            // XMLWorkerHelper.getInstance().parseXHtml(writer, document, new ByteArrayInputStream(html.getBytes("UTF-8")), null, Charset.forName("UTF-8"));
         } catch (RuntimeWorkerException e) {
             log.error(PdfErrorCode.HTML_CONVERT2PDF_FAIL.getDesc(), e);
             throw new PdfBizException(PdfErrorCode.HTML_CONVERT2PDF_FAIL);
         }
     }
-
 }

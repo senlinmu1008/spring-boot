@@ -40,11 +40,11 @@ public class TestCase {
 
     @Test
     public void earlyRepayment() {
-        String remainAmt = "1319382.96";
+        String remainAmt = "1312524.42";
         int remainPeriod = (int) DateUtil.betweenMonth(new Date(), DateUtil.parse("20500901", "yyyyMMdd"), false);
         // int remainPeriod = 317;
         System.out.println(remainPeriod);
-        String interestRate = "4.2";
+        String interestRate = "3.95";
         BigDecimal monthlyInterestRate = new BigDecimal(interestRate).divide(new BigDecimal(1200), 20, RoundingMode.HALF_UP);
         BigDecimal numerator = new BigDecimal(remainAmt).multiply(monthlyInterestRate).multiply(monthlyInterestRate.add(new BigDecimal(1)).pow(remainPeriod));
         BigDecimal denominator = monthlyInterestRate.add(new BigDecimal(1)).pow(remainPeriod).subtract(new BigDecimal(1));
