@@ -152,7 +152,7 @@ public class BankFlowCsvParse {
             for (Map.Entry<String, BankFlowCsvResultDTO> entry : entrySet) {
                 String key = entry.getKey();
                 BankFlowCsvResultDTO mainInfo = entry.getValue();
-                excelWriter.writeRow(Arrays.asList(new String[]{key, mainInfo.getTxCount() + "", mainInfo.getTotalAmt().toString()}));
+                excelWriter.writeRow(Arrays.asList(key, mainInfo.getTxCount() + "", mainInfo.getTotalAmt().toString()));
             }
             excelWriter.autoSizeColumnAll();
         } finally {
