@@ -15,5 +15,4 @@
     <root level="debug">
         <appender-ref ref="CONSOLE"/>
     </root>
-
 </configuration>
